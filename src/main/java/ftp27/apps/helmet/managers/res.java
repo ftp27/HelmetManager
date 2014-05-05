@@ -27,21 +27,6 @@ public class res {
         Log.d("Class [res]", "Checking file "+Address);
 
         InputStream in = getClass().getResourceAsStream(Address);
-        BufferedReader input = new BufferedReader(new InputStreamReader(in));
-
-        StringBuilder builder = new StringBuilder();
-        String aux = "";
-        String message = "";
-
-        try {
-            while ((aux = input.readLine()) != null) {
-                builder.append(aux);
-            }
-            message = builder.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
 
        String mime = NanoHTTPD.MIME_HTML;
        String[] nameFile = uris[uris.length-1].split("\\.");
@@ -50,11 +35,16 @@ public class res {
                 mime = NanoHTTPD.MIME_JAVASCRIPT;
             } else if (nameFile[nameFile.length - 1].equals("css")) {
                 mime = NanoHTTPD.MIME_CSS;
+            } else if (nameFile[nameFile.length - 1].equals("png")) {
+                mime = NanoHTTPD.MIME_PNG;
+            } else if ((nameFile[nameFile.length - 1].equals("jpg")) ||
+                    (nameFile[nameFile.length - 1].equals("jpeg"))) {
+                mime = NanoHTTPD.MIME_JPEG;
             }
         }
 
 
-        return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, mime, message);
+        return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, mime, in);
 
     }
 }

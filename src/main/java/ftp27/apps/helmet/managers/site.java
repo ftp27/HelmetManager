@@ -36,7 +36,7 @@ public class site {
     }
 
     private String getHeader() {
-        String header = "<div class=\"header\">Helmet Manager\n" +
+        String header = "<div class=\"header\"><img height=\"90%\" src=\"/res/site/img/test.png\">Helmet Manager\n" +
                 "<!-- Header -->\n" +
                 "</div>\n" +
                 "<div class=\"content\">";
