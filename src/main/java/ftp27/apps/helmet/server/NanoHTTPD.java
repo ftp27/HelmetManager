@@ -265,7 +265,17 @@ public class NanoHTTPD {
 	public static final String MIME_PLAINTEXT = "text/plain",
 			MIME_HTML = "text/html",
 			MIME_DEFAULT_BINARY = "application/octet-stream",
-			MIME_XML = "text/xml";
+			MIME_XML = "text/xml",
+
+            MIME_GIF = "image/gif",
+            MIME_PNG = "image/png",
+            MIME_JPEG = "image/jpeg",
+
+            MIME_CSS = "text/css",
+            MIME_JAVASCRIPT = "text/javascript",
+            MIME_JSON = "text/json";
+
+
 
 	// ==================================================
 	// Socket & server code
