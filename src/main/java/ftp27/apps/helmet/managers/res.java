@@ -31,14 +31,15 @@ public class res {
        String mime = NanoHTTPD.MIME_HTML;
        String[] nameFile = uris[uris.length-1].split("\\.");
         if (nameFile.length > 0) {
-            if (nameFile[nameFile.length - 1].equals("js")) {
+            String extension = nameFile[nameFile.length - 1];
+            if (extension.equals("js")) {
                 mime = NanoHTTPD.MIME_JAVASCRIPT;
-            } else if (nameFile[nameFile.length - 1].equals("css")) {
+            } else if (extension.equals("css")) {
                 mime = NanoHTTPD.MIME_CSS;
-            } else if (nameFile[nameFile.length - 1].equals("png")) {
+            } else if (extension.equals("png")) {
                 mime = NanoHTTPD.MIME_PNG;
-            } else if ((nameFile[nameFile.length - 1].equals("jpg")) ||
-                    (nameFile[nameFile.length - 1].equals("jpeg"))) {
+            } else if ((extension.equals("jpg")) ||
+                    (extension.equals("jpeg"))) {
                 mime = NanoHTTPD.MIME_JPEG;
             }
         }

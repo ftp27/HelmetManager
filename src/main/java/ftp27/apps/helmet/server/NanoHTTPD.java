@@ -273,7 +273,7 @@ public class NanoHTTPD {
 
             MIME_CSS = "text/css",
             MIME_JAVASCRIPT = "text/javascript",
-            MIME_JSON = "text/json";
+            MIME_JSON = "application/json";
 
 
 

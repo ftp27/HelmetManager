@@ -3,27 +3,57 @@ body {
 }
 
 .header {
-    /* background-color: red; */
     height: 50px;
-    /* width: 100%; */
     font-size: 40px;
     font-style: italic;
     margin-left: 20px;
+    margin-bottom: 10px;
 }
 
 .content {
-    /* background-color: green; */
     min-height: 100px;
-    /* width: 100%; */
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.nav-panel {
+    height: 30px;
+}
+
+.nav-content {
+    height: 500px;
+}
+
+.file-part {
+    float: left;
+    width: 50%;
+    height: 100%;
+}
+
+.file-address {
+    height: 30px;
+    width: 100%;
+}
+
+.file-list {
+    height: 470px;
+    overflow: auto;
+}
+
+.file-list>ul>li {
+    list-style-type: none;
+}
+
+.file-list>ul>li>img {
+    float: left;
+    padding-right: 10px;
 }
 
 .footer {
-    /* background-color: blue; */
     height: 20px; width: 100%;
     align-content: center;
-
-
     text-align: center;
+    margin-top: 20px;
 }
 
 .footer a {
@@ -32,3 +62,9 @@ body {
     color: black;
 
 }
+
+.debug {
+    padding: 10px;
+    border: 1px solid black;
+}
+

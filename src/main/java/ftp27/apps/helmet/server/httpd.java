@@ -38,18 +38,20 @@ public class httpd extends NanoHTTPD {
         String msg = "";
         String[] uris = uri.split("/");
         if (uris.length > 0) {
-            if (uris[1].toLowerCase().equals("file")) {
+            String action = uris[1].toLowerCase();
+            if (action.equals("file")) {
                 return file.request(uri, method, header, parms, files);
-            } else if (uris[1].toLowerCase().equals("info")) {
+            } else if (action.equals("info")) {
                 return Phone.request(uri, method, header, parms, files);
-            } else if (uris[1].toLowerCase().equals("res")) {
+            } else if (action.equals("res")) {
                 return Res.request(uri, method, header, parms, files);
-            } else {
+            } else if (action.equals("site")) {
                 return Site.request(uri, method, header, parms, files);
             }
         } else {
             return Site.request(uri, method, header, parms, files);
         }
+        return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_HTML, msg);
     }
 
 

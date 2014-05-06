@@ -2,8 +2,7 @@ package ftp27.apps.helmet.managers;
 
 import ftp27.apps.helmet.server.NanoHTTPD;
 
-
-import java.io.File;
+import java.io.*;
 import java.util.Properties;
 
 /**
@@ -38,7 +37,7 @@ public class file {
                     for (int i=0; i<dir_files.length; i++) {
                         message += "{ \"fileName\": \""+dir_files[i].getName()+"\",";
                         if (dir_files[i].isDirectory()) {
-                            message += "\"fileType\":\"directory\",";
+                            message += "\"fileType\":\"directory\"";
                         } else {
                             message += "\"fileType\":\"file\"";
                         }
