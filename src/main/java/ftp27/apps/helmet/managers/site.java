@@ -10,15 +10,20 @@ import java.util.Map;
 import java.util.Properties;
 
 public class site {
+    private static String LOG_TAG = "Class [site]";
     private boolean DEBUG = true;
 
     public NanoHTTPD.Response request(String uri, String method, Properties header,
                                  Properties parms, Properties files) {
+
+        Map<String,String> values = new HashMap<String,String>();
+
+
         String msg = getTemplate("header");
         String[] uris = uri.split("/");
 
         if (DEBUG) {
-            Map<String,String> debuginfo = new HashMap<String,String>();
+
             String debug ="";
             debug += "URI: " + uri + "<br>";
             debug += "method: " + method + "<br>";
@@ -29,31 +34,30 @@ public class site {
                 }
             }
 
-            debuginfo.put("debuginfo",debug);
-            msg += templater.Compile(getTemplate("debug"),debuginfo);
+            values.put("debuginfo",debug);
+            msg += getTemplate("debug");
         }
 
-        msg += "<div class=\"content\">\n" +
-                getTemplate("navpanel") +
-                "<div class=\"nav-content\">";
+        msg += getTemplate("content");
+        msg += getTemplate("footer");
+
+        String navcontent = "";
         if (uris.length > 2) {
             String action = uris[2].toLowerCase();
             if (action.equals("file")) {
-                msg += getTemplate("file");
+                navcontent += getTemplate("file");
             }
         }
-            msg += "</div>";
-        msg += "</div>";
 
-
-        msg += getTemplate("footer");
-        msg += "</body></html>\n";
+        values.put("navpanel", getTemplate("navpanel"));
+        values.put("navcontent", navcontent);
+        msg = templater.Compile(msg,values);
 
         return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_HTML, msg);
     }
 
     private String getTemplate(String templateName) {
-        Log.d("Class [site]", "Checking file " + "/templates/" + templateName + ".html");
+        Log.d(LOG_TAG, "Checking file " + "/templates/" + templateName + ".html");
         InputStream stream = this.getClass().getResourceAsStream("/templates/"+templateName+".html");
         BufferedReader input = new BufferedReader(new InputStreamReader(stream));
 

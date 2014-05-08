@@ -14,6 +14,8 @@ import java.util.Properties;
  * Created by ftp27 on 04.05.14.
  */
 public class httpd extends NanoHTTPD {
+    private static String LOG_TAG = "Class [httpd]";
+
     private phone Phone;
     private site Site;
     private res Res;
@@ -27,13 +29,13 @@ public class httpd extends NanoHTTPD {
         Site = new site();
         Res = new res();
 
-        Log.d("httpd", "startServer");
+        Log.d(LOG_TAG, "startServer");
     }
 
     @Override
     public Response serve(String uri, String method, Properties header,
                           Properties parms, Properties files) {
-        Log.d("httpd", method + " '" + uri + "' ");
+        Log.d(LOG_TAG, method + " '" + uri + "' ");
 
         String msg = "";
         String[] uris = uri.split("/");

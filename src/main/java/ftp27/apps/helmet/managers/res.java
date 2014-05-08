@@ -10,6 +10,8 @@ import java.util.Properties;
  * Created by ftp27 on 05.05.14.
  */
 public class res {
+    private static String LOG_TAG = "Class [res]";
+
     public NanoHTTPD.Response request(String uri, String method, Properties header,
                                  Properties parms, Properties files) {
 
@@ -24,7 +26,7 @@ public class res {
             }
         }
 
-        Log.d("Class [res]", "Checking file "+Address);
+        Log.d(LOG_TAG, "Checking file "+Address);
 
         InputStream in = getClass().getResourceAsStream(Address);
 

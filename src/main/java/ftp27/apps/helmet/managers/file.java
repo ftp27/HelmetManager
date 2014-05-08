@@ -9,6 +9,7 @@ import java.util.Properties;
  * Created by ftp27 on 05.05.14.
  */
 public class file {
+    private static String LOG_TAG = "Class [file]";
 
     public static NanoHTTPD.Response request(String uri, String method, Properties header,
                           Properties parms, Properties files) {

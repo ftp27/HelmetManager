@@ -1,5 +1,7 @@
 package ftp27.apps.helmet.tools;
 
+import android.util.Log;
+
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -7,8 +9,11 @@ import java.util.regex.Pattern;
  * Created by ftp27 on 08.05.14.
  */
 public class templater {
+    private static String LOG_TAG = "Class [templater]";
+
     public static String Compile(String template, Map<String, String> values) {
         for (String Key: values.keySet()) {
+            Log.d(LOG_TAG,"values["+Key+"] = "+values.get(Key));
             template = pasteString(template, "\\$\\{"+Key+"\\}", values.get(Key));
         }
         return template;
@@ -18,6 +23,7 @@ public class templater {
         Pattern pattern = Pattern.compile(key);
         String[] parts = pattern.split(template);
         String result = "";
+        Log.d(LOG_TAG, "Key = ["+key+"]; parts = "+parts.length);
         if (parts.length > 1) {
             for (int i=0; i<parts.length-1; i++) {
                 result += parts[i]+value;
