@@ -22,15 +22,18 @@ public class site {
         String msg = getTemplate("header");
         String[] uris = uri.split("/");
 
+        msg += getTemplate("content");
+        msg += getTemplate("footer");
+
         if (DEBUG) {
 
             String debug ="";
-            debug += "URI: " + uri + "<br>";
-            debug += "method: " + method + "<br>";
-            debug += "URI length: " + uris.length + "<br>";
+            debug += "<strong>URI:</strong> " + uri + "<br>";
+            debug += "<strong>method:</strong> " + method + "<br>";
+            debug += "<strong>URI length:</strong> " + uris.length + "<br>";
             if (uris.length > 0) {
                 for (int i = 0; i < uris.length; i++) {
-                    debug += "URI[" + i + "]: " + uris[i] + "<br>";
+                    debug += "<strong>URI[" + i + "]:</strong> " + uris[i] + "<br>";
                 }
             }
 
@@ -38,15 +41,14 @@ public class site {
             msg += getTemplate("debug");
         }
 
-        msg += getTemplate("content");
-        msg += getTemplate("footer");
-
         String navcontent = "";
         if (uris.length > 2) {
             String action = uris[2].toLowerCase();
             if (action.equals("file")) {
                 navcontent += getTemplate("file");
             }
+        } else {
+            navcontent += getTemplate("file");
         }
 
         values.put("navpanel", getTemplate("navpanel"));

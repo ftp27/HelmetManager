@@ -35,6 +35,11 @@ public class file {
                 message += "\"files\" : [";
                 File[] dir_files = file.listFiles();
                 if (dir_files.length > 0) {
+
+                    message += "{ \"fileName\": \"..\",";
+                    message += "\"fileType\":\"directory\"";
+                    message += "},";
+
                     for (int i=0; i<dir_files.length; i++) {
                         message += "{ \"fileName\": \""+dir_files[i].getName()+"\",";
                         if (dir_files[i].isDirectory()) {

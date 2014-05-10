@@ -2,10 +2,9 @@ package ftp27.apps.helmet.server;
 
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import ftp27.apps.helmet.managers.logger;
+import ftp27.apps.helmet.tools.logger;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by ftp27 on 04.05.14.

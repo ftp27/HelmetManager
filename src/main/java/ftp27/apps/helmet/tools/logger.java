@@ -1,4 +1,4 @@
-package ftp27.apps.helmet.managers;
+package ftp27.apps.helmet.tools;
 
 import android.text.Html;
 import android.widget.TextView;

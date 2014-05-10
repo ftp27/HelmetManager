@@ -7,9 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.io.IOException;
-
-import ftp27.apps.helmet.managers.logger;
+import ftp27.apps.helmet.tools.logger;
 import ftp27.apps.helmet.server.server;
 
 
