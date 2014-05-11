@@ -7,6 +7,12 @@ $(document).ready(function() {
 	}
 	$("#nav-tab-"+tab).addClass("active");
 
+	$('.file-address').keypress(function (e) {
+        if (e.which == 13) {
+            setList($(this).parent().find(".file-list"),$(this).val());
+        }
+	});
+
 
 	$(".file-list").each( function() {
         setList($(this),'/sdcard');
@@ -35,6 +41,7 @@ function updateEvents() {
 
     $('.file-list>ul>li').dblclick(function () {
         //console.log("double click");
+        setList($(this).parents(".file-list"),$(this).attr("src"));
     });
 }
 
@@ -46,7 +53,7 @@ function setList(dom, address) {
                 list = "<ul>";
                 $.each( data["files"], function( key, val ) {
                     //console.log(val["fileName"]);
-                    elem = "<li id='"+side+"-"+key+"'>";
+                    elem = "<li id='"+side+"-"+key+"' src='"+val["fileAddress"]+"'>";
                     if (val["fileType"] == "directory") {
                         elem += "<img src='/res/site/img/dir.png'>";
                     } else {

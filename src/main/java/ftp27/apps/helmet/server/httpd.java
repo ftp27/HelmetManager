@@ -8,6 +8,7 @@ import ftp27.apps.helmet.managers.site;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 /**
@@ -36,6 +37,11 @@ public class httpd extends NanoHTTPD {
     public Response serve(String uri, String method, Properties header,
                           Properties parms, Properties files) {
         Log.d(LOG_TAG, method + " '" + uri + "' ");
+        try {
+            uri = new String(uri.getBytes("ISO-8859-1"),"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         String msg = "";
         String[] uris = uri.split("/");
