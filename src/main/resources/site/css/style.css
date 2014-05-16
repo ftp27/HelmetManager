@@ -67,8 +67,7 @@ body {
 }
 
 .file-address {
-    height: 30px;
-    width: 100%;
+
 }
 
 .file-list {
@@ -123,4 +122,13 @@ body {
 
 .block-conteiner {
     margin: 5px;
+}
+
+#info-build li>b {
+    margin-right: 20px;
+}
+
+#info-build ul {
+    list-style-type: none;
+    padding-left: 10px;
 }

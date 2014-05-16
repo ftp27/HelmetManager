@@ -31,13 +31,15 @@ public class phone {
 
         if (action.equals("header")) {
             message = getHeaderInfo();
+        } else if (action.equals("build")) {
+            message = getBuild();
         }
 
         return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_HTML, message);
     }
 
     public String getDeviceName() {
-        return Build.DEVICE;
+        return Build.BRAND+" "+Build.DEVICE;
     }
 
     public String getBatteryLevel() {
@@ -55,6 +57,41 @@ public class phone {
         String message = "{";
             message += "\"phoneName\":\""+getDeviceName()+"\",";
             message += "\"batteryLevel\":\""+getBatteryLevel()+"\"";
+        message += "}";
+        return message;
+    }
+
+    public String getBuild() {
+        String message = "{";
+            message += "\"BOARD\":\""+Build.BOARD+"\",";
+            message += "\"BOOTLOADER\":\""+Build.BOOTLOADER+"\",";
+            message += "\"BRAND\":\""+Build.BRAND+"\",";
+            message += "\"CPU_ABI\":\""+Build.CPU_ABI+"\",";
+            message += "\"CPU_ABI2\":\""+Build.CPU_ABI2+"\",";
+            message += "\"DEVICE\":\""+Build.DEVICE+"\",";
+            message += "\"DISPLAY\":\""+Build.DISPLAY+"\",";
+            message += "\"FINGERPRINT\":\""+Build.FINGERPRINT+"\",";
+            message += "\"HARDWARE\":\""+Build.HARDWARE+"\",";
+            message += "\"HOST\":\""+Build.HOST+"\",";
+            message += "\"ID\":\""+Build.ID+"\",";
+            message += "\"MANUFACTURER\":\""+Build.MANUFACTURER+"\",";
+            message += "\"MODEL\":\""+Build.MODEL+"\",";
+            message += "\"PRODUCT\":\""+Build.PRODUCT+"\",";
+            message += "\"SERIAL\":\""+Build.SERIAL+"\",";
+            message += "\"TAGS\":\""+Build.TAGS+"\",";
+            message += "\"TYPE\":\""+Build.TYPE+"\",";
+            message += "\"USER\":\""+Build.USER+"\",";
+            message += "\"VERSION\":"+getBuildVersion()+"";
+        message += "}";
+        return message;
+    }
+
+    public String getBuildVersion() {
+        String message = "{";
+            message += "\"CODENAME\":\""+Build.VERSION.CODENAME+"\",";
+            message += "\"INCREMENTAL\":\""+Build.VERSION.INCREMENTAL+"\",";
+            message += "\"RELEASE\":\""+Build.VERSION.RELEASE+"\"";
+            //message += "\"CPU_ABI2\":\""+Build.VERSION_CODES.+"\"";
         message += "}";
         return message;
     }

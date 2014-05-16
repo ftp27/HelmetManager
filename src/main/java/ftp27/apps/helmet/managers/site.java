@@ -46,16 +46,21 @@ public class site {
         if (uris.length > 2) {
             String action = uris[2].toLowerCase();
             if (action.equals("file")) {
+                values.put("requedjs","file");
                 navcontent += getTemplate("file");
+            } else if (action.equals("info")) {
+                values.put("requedjs","info");
+                navcontent += getTemplate("info");
             }
+
+            values.put("navpanel", getTemplate("navpanel"));
+            values.put("navcontent", navcontent);
+            msg = templater.Compile(msg,values);
+
         } else {
-            navcontent += getTemplate("file");
+            values.put("location","/site/file");
+            msg = templater.Compile(getTemplate("relocation"),values);
         }
-
-        values.put("navpanel", getTemplate("navpanel"));
-        values.put("navcontent", navcontent);
-        msg = templater.Compile(msg,values);
-
         return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_HTML, msg);
     }
 
