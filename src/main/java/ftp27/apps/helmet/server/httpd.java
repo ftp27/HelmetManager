@@ -1,5 +1,6 @@
 package ftp27.apps.helmet.server;
 
+import android.content.Context;
 import android.util.Log;
 import ftp27.apps.helmet.managers.file;
 import ftp27.apps.helmet.managers.phone;
@@ -21,12 +22,15 @@ public class httpd extends NanoHTTPD {
     private site Site;
     private res Res;
 
+    private Context context;
 
-    public httpd(int port, File rootDir) throws IOException {
+
+    public httpd(int port, File rootDir, Context context) throws IOException {
         super(port, rootDir);
         this.startServer();
+        this.context = context;
 
-        Phone = new phone();
+        Phone = new phone(context);
         Site = new site();
         Res = new res();
 

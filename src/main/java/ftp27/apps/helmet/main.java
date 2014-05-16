@@ -27,7 +27,7 @@ public class main extends Activity implements View.OnClickListener {
         StopButton = (Button) findViewById(R.id.stopButton);
 
         Logger = new logger( (TextView) findViewById(R.id.logView) );
-        Server = new server(8080, (WifiManager) getSystemService(WIFI_SERVICE), Logger);
+        Server = new server(8080, (WifiManager) getSystemService(WIFI_SERVICE), Logger, getApplicationContext());
 
 
         StartButton.setOnClickListener(this);

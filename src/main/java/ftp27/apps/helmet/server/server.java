@@ -1,5 +1,6 @@
 package ftp27.apps.helmet.server;
 
+import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import ftp27.apps.helmet.tools.logger;
@@ -18,13 +19,15 @@ public class server {
     private WifiInfo wifiInfo;
     private httpd HTTPd;
     private logger Logger;
+    private Context context;
 
     private int port;
     private int status = CODE_STOPPED;
 
-    public server(int port, WifiManager wifiMng, logger Logger) {
+    public server(int port, WifiManager wifiMng, logger Logger, Context context) {
         this.port = port;
         this.Logger = Logger;
+        this.context = context;
         wifiInfo = wifiMng.getConnectionInfo();
 
     }
@@ -35,7 +38,7 @@ public class server {
         }
 
         try {
-            HTTPd = new httpd(port, new File("/sdcard"));
+            HTTPd = new httpd(port, new File("/sdcard"), context);
             status = CODE_STARTED;
 
             Logger.statusMessage("Server started");

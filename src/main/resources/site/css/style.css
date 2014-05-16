@@ -3,11 +3,39 @@ body {
 }
 
 .header {
-    height: 50px;
+    height: 60px;
     font-size: 40px;
     font-style: italic;
     margin-left: 20px;
     margin-bottom: 10px;
+}
+
+.header>img {
+    float:left;
+}
+
+.header-text {
+    float:left;
+}
+
+.header-info {
+    float:right;
+    margin: 10px;
+    padding-left: 4px;
+    border-left: 3px solid;
+}
+
+.header-info>img {
+    height:20px;
+    float:right;
+}
+
+.header-info>div {
+    font-size: 15px;
+    font-style: normal;
+    float: left;
+    clear: both;
+    margin-right: 50px
 }
 
 .content {
@@ -19,6 +47,10 @@ body {
 
 .nav-panel {
 
+}
+
+.nav>li>a {
+    padding: 5px 10px;
 }
 
 .nav-content {
@@ -57,7 +89,14 @@ body {
     padding-top: 3px;
     margin: 2px;
     border-radius: 4px;
+}
 
+.file-name {
+    color: black;
+}
+
+.file-name:hover {
+    cursor: pointer
 }
 
 .file-list>ul>li>img {
@@ -80,7 +119,6 @@ body {
 
 .debug {
     margin: 10px;
-    border: 1px solid black;
 }
 
 .block-conteiner {

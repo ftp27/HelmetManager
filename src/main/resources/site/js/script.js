@@ -18,6 +18,10 @@ $(document).ready(function() {
         setList($(this),'/sdcard');
 	});
 
+	$.getJSON("/info/header").done( function( data ) {
+        $(".header-info>.battery").text(data["batteryLevel"]);
+        $(".header-info>.phone").text(data["phoneName"]);
+	});
 
 });
 
@@ -33,15 +37,19 @@ function updateEvents() {
 
     $('.file-list>ul>li').click(function () {
         //console.log("one click");
-        $(this).parent().find("li").css("background-color","white");
-        $(this).parent().find("li").css("color","black");
+        fileRows = $(".file-list>ul>li");
+        fileRows.css("background-color","white");
+        fileRows.css("color","black");
+        fileRows.children(".file-name").css("color","black");
+
         $(this).css("background-color","#809ECC");
+        $(this).children(".file-name").css("color","white");
         $(this).css("color","white");
     });
 
-    $('.file-list>ul>li').dblclick(function () {
+    $('.file-name').click(function () {
         //console.log("double click");
-        setList($(this).parents(".file-list"),$(this).attr("src"));
+        setList($(this).parents(".file-list"),$(this).parents("li").attr("src"));
     });
 }
 
@@ -59,9 +67,9 @@ function setList(dom, address) {
                     } else {
                         elem += "<img src='/res/site/img/file.png'>";
                     }
-                    elem += "<div class='file-name'>"+
+                    elem += "<a class='file-name'>"+
                                 val["fileName"]+
-                            "</div>"+
+                            "</a>"+
                          "</li>";
                     list += elem;
                 });

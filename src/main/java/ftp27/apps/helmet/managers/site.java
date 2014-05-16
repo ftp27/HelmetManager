@@ -20,6 +20,7 @@ public class site {
 
 
         String msg = getTemplate("header");
+
         String[] uris = uri.split("/");
 
         msg += getTemplate("content");
