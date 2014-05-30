@@ -2,10 +2,9 @@ package ftp27.apps.helmet.server;
 
 import android.content.Context;
 import android.util.Log;
-import ftp27.apps.helmet.managers.file;
-import ftp27.apps.helmet.managers.phone;
-import ftp27.apps.helmet.managers.res;
-import ftp27.apps.helmet.managers.site;
+import ftp27.apps.helmet.managers.*;
+import ftp27.apps.helmet.tools.templater;
+import sun.misc.Cleaner;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,14 +20,16 @@ public class httpd extends NanoHTTPD {
     private phone Phone;
     private site Site;
     private res Res;
+    private auth AccessManager;
 
     private Context context;
 
 
-    public httpd(int port, File rootDir, Context context) throws IOException {
+    public httpd(int port, File rootDir, auth AccessManager) throws IOException {
         super(port, rootDir);
         this.startServer();
-        this.context = context;
+        this.AccessManager = AccessManager;
+        this.context = AccessManager.getContext();
 
         Phone = new phone(context);
         Site = new site();
@@ -47,8 +48,32 @@ public class httpd extends NanoHTTPD {
             e.printStackTrace();
         }
 
+
+        String ClientIP = header.getProperty("client-ip");
+
+
+
+        if ((method.equals("POST")) && (parms.containsKey("password"))) {
+            Log.d(LOG_TAG, method + " '" + parms.getProperty("password") + "' ");
+            AccessManager.takeAccess(ClientIP, parms.getProperty("password"));
+        }
+
+        int AccessLevel = AccessManager.getAccessLevel(ClientIP);
+
         String msg = "";
         String[] uris = uri.split("/");
+
+
+        if ((AccessLevel < 0) &&
+                   ((uris.length < 1) ||
+                    (!uris[1].toLowerCase().equals("res")))
+        ) {
+                return new NanoHTTPD.Response(
+                        NanoHTTPD.HTTP_OK,
+                        NanoHTTPD.MIME_HTML,
+                        new templater().getTemplate("auth"));
+        }
+
         if (uris.length > 0) {
             String action = uris[1].toLowerCase();
             if (action.equals("file")) {

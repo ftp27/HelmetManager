@@ -23,9 +23,9 @@ function setList(dom, address) {
                     }
                     elem = "<li id='"+side+"-"+key+"' src='"+val["fileAddress"]+"'>";
                     if (val["fileType"] == "directory") {
-                        elem += "<img src='/res/site/img/dir.png'>";
+                        elem += "<img src='/res/img/dir.png'>";
                     } else {
-                        elem += "<img src='/res/site/img/file.png'>";
+                        elem += "<img src='/res/img/file.png'>";
                     }
                     elem += "<a class='file-name'>"+
                                 val["fileName"]+

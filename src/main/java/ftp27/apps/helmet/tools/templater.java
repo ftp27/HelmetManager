@@ -2,6 +2,10 @@ package ftp27.apps.helmet.tools;
 
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -34,5 +38,26 @@ public class templater {
         }
 
         return result;
+    }
+
+    public String getTemplate(String templateName) {
+        Log.d(LOG_TAG, "Checking file " + "/templates/" + templateName + ".html");
+        InputStream stream = this.getClass().getResourceAsStream("/templates/"+templateName+".html");
+        BufferedReader input = new BufferedReader(new InputStreamReader(stream));
+
+        StringBuilder builder = new StringBuilder();
+        String aux = "";
+        String message = "";
+
+        try {
+            while ((aux = input.readLine()) != null) {
+                builder.append(aux);
+            }
+            message = builder.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        return message;
     }
 }

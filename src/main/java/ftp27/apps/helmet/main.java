@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import ftp27.apps.helmet.managers.auth;
+import ftp27.apps.helmet.tools.dataBase;
 import ftp27.apps.helmet.tools.logger;
 import ftp27.apps.helmet.server.server;
 
@@ -14,9 +16,11 @@ import ftp27.apps.helmet.server.server;
 public class main extends Activity implements View.OnClickListener {
 
     private logger Logger;
-    private Button StartButton, StopButton;
-
     private server Server;
+    private dataBase DB;
+    private auth AccessManager;
+
+    private Button StartButton, StopButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +31,12 @@ public class main extends Activity implements View.OnClickListener {
         StopButton = (Button) findViewById(R.id.stopButton);
 
         Logger = new logger( (TextView) findViewById(R.id.logView) );
-        Server = new server(8080, (WifiManager) getSystemService(WIFI_SERVICE), Logger, getApplicationContext());
-
+        DB = new dataBase(this);
+        AccessManager = new auth(Logger, DB);
+        Server = new server(8080, (WifiManager) getSystemService(WIFI_SERVICE), AccessManager);
 
         StartButton.setOnClickListener(this);
         StopButton.setOnClickListener(this);
-
-
     }
 
     @Override

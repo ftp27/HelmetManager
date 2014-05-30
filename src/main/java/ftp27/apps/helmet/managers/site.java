@@ -31,6 +31,8 @@ public class site {
             String debug ="";
             debug += "<strong>URI:</strong> " + uri + "<br>";
             debug += "<strong>method:</strong> " + method + "<br>";
+            debug += "<b>header:</b><br>"+genPropertyList(header);
+            debug += "<b>parms:</b><br>"+genPropertyList(parms);
             debug += "<strong>URI length:</strong> " + uris.length + "<br>";
             if (uris.length > 0) {
                 for (int i = 0; i < uris.length; i++) {
@@ -65,23 +67,14 @@ public class site {
     }
 
     private String getTemplate(String templateName) {
-        Log.d(LOG_TAG, "Checking file " + "/templates/" + templateName + ".html");
-        InputStream stream = this.getClass().getResourceAsStream("/templates/"+templateName+".html");
-        BufferedReader input = new BufferedReader(new InputStreamReader(stream));
+        return new templater().getTemplate(templateName);
+    }
 
-        StringBuilder builder = new StringBuilder();
-        String aux = "";
-        String message = "";
-
-        try {
-            while ((aux = input.readLine()) != null) {
-                builder.append(aux);
-            }
-            message = builder.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-
+    private String genPropertyList(Properties properties) {
+        String answer = "";
+        for (String key: properties.stringPropertyNames()) {
+            answer += "<i>"+key+":</i> "+properties.getProperty(key)+"<br>";
         }
-        return message;
+        return answer;
     }
 }

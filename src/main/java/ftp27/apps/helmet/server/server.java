@@ -3,6 +3,7 @@ package ftp27.apps.helmet.server;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import ftp27.apps.helmet.managers.auth;
 import ftp27.apps.helmet.tools.logger;
 
 import java.io.File;
@@ -20,16 +21,18 @@ public class server {
     private httpd HTTPd;
     private logger Logger;
     private Context context;
+    private auth AccessManager;
 
     private int port;
     private int status = CODE_STOPPED;
 
-    public server(int port, WifiManager wifiMng, logger Logger, Context context) {
+    public server(int port, WifiManager wifiMng, auth AccessManager) {
         this.port = port;
-        this.Logger = Logger;
-        this.context = context;
-        wifiInfo = wifiMng.getConnectionInfo();
+        this.AccessManager = AccessManager;
+        this.Logger = AccessManager.getLogger();
+        this.context = AccessManager.getContext();
 
+        wifiInfo = wifiMng.getConnectionInfo();
     }
 
     public int start() {
@@ -38,11 +41,12 @@ public class server {
         }
 
         try {
-            HTTPd = new httpd(port, new File("/sdcard"), context);
+            HTTPd = new httpd(port, new File("/sdcard"), AccessManager);
             status = CODE_STARTED;
 
             Logger.statusMessage("Server started");
             Logger.statusMessage("IP:Port > "+getIP()+":"+Integer.toString(getPort()));
+            AccessManager.genAuthkey();
 
         } catch (Exception e) {
             e.printStackTrace();

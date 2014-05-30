@@ -16,7 +16,7 @@ public class res {
                                  Properties parms, Properties files) {
 
         String[] uris = uri.split("/");
-        String Address = "/";//File.pathSeparator;
+        String Address = "/site/";//File.pathSeparator;
         if (uris.length > 2) {
             for (int i = 2; i < uris.length; i++) {
                 Address += uris[i];//File.pathSeparator;
