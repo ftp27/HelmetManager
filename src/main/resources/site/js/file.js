@@ -1,7 +1,7 @@
 $(".nav-content").ready(function() {
 	$('.file-address').keypress(function (e) {
         if (e.which == 13) {
-            setList($(this).parent().find(".file-list"),$(this).val());
+            setList($(this).closest(".file-part").find(".file-list"),$(this).val());
         }
 	});
 
@@ -42,7 +42,7 @@ function setList(dom, address) {
         });
 
         $(".file-upbutton").click(function() {
-            filelist = $(this).parents(".file-part").find(".file-list");
+            filelist = $(this).closest(".file-part").find(".file-list");
             address = $(this).attr("src");
             if (address) {
                 setList(filelist,address);
