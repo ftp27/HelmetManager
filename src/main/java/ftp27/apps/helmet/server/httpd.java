@@ -3,6 +3,7 @@ package ftp27.apps.helmet.server;
 import android.content.Context;
 import android.util.Log;
 import ftp27.apps.helmet.managers.*;
+import ftp27.apps.helmet.tools.logger;
 import ftp27.apps.helmet.tools.templater;
 import sun.misc.Cleaner;
 
@@ -17,10 +18,12 @@ import java.util.Properties;
 public class httpd extends NanoHTTPD {
     private static String LOG_TAG = "Class [httpd]";
 
-    private phone Phone;
-    private site Site;
-    private res Res;
+    private phone PhoneManager;
+    private site SiteManager;
+    private file FileManager;
+    private res ResManager;
     private auth AccessManager;
+    private logger Logger;
 
     private Context context;
 
@@ -28,12 +31,15 @@ public class httpd extends NanoHTTPD {
     public httpd(int port, File rootDir, auth AccessManager) throws IOException {
         super(port, rootDir);
         this.startServer();
+
         this.AccessManager = AccessManager;
         this.context = AccessManager.getContext();
+        this.Logger = AccessManager.getLogger();
 
-        Phone = new phone(context);
-        Site = new site();
-        Res = new res();
+        PhoneManager = new phone(context);
+        SiteManager = new site();
+        ResManager = new res();
+        FileManager = new file();
 
         Log.d(LOG_TAG, "startServer");
     }
@@ -76,17 +82,21 @@ public class httpd extends NanoHTTPD {
 
         if (uris.length > 0) {
             String action = uris[1].toLowerCase();
+            if (!action.equals("res")) {
+                Logger.statusMessage(ClientIP+" ["+method+"]: "+uri);
+            }
+
             if (action.equals("file")) {
-                return file.request(uri, method, header, parms, files);
+                return FileManager.request(uri, method, header, parms, files);
             } else if (action.equals("info")) {
-                return Phone.request(uri, method, header, parms, files);
+                return PhoneManager.request(uri, method, header, parms, files);
             } else if (action.equals("res")) {
-                return Res.request(uri, method, header, parms, files);
+                return ResManager.request(uri, method, header, parms, files);
             } else if (action.equals("site")) {
-                return Site.request(uri, method, header, parms, files);
+                return SiteManager.request(uri, method, header, parms, files);
             }
         } else {
-            return Site.request(uri, method, header, parms, files);
+            return SiteManager.request(uri, method, header, parms, files);
         }
         return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_HTML, msg);
     }

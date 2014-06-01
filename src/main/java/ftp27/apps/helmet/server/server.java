@@ -44,8 +44,8 @@ public class server {
             HTTPd = new httpd(port, new File("/sdcard"), AccessManager);
             status = CODE_STARTED;
 
-            Logger.statusMessage("Server started");
-            Logger.statusMessage("IP:Port > "+getIP()+":"+Integer.toString(getPort()));
+            Logger.serverMessage("Server started");
+            Logger.serverMessage("IP:Port > "+getIP()+":"+Integer.toString(getPort()));
             AccessManager.genAuthkey();
 
         } catch (Exception e) {
@@ -61,7 +61,7 @@ public class server {
         if (!HTTPd.equals(null)) {
             try {
                 HTTPd.stop();
-                Logger.statusMessage("Server stepped");
+                Logger.serverMessage("Server stepped");
             } catch (Exception e) {
                 Logger.errorMessage("Error with stopping server");
             }
