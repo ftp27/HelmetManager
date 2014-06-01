@@ -21,25 +21,29 @@ public class logger {
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                logView.append((CharSequence) msg.obj);
+                logView.append(Html.fromHtml((String) msg.obj));
             }
         };
     }
 
     public void append(CharSequence message) {
         Date d = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
         String date = format.format(d);
         Message msg = new Message();
-        msg.obj = "["+date+"]: "+message+"\n\r";
+        msg.obj = "["+date+"]: "+message+"<br>";
         handler.sendMessage(msg);
     }
 
     public void statusMessage(String message) {
-        append(message);
+        append("<font color='green'>"+message+"</font>");
     }
 
     public void errorMessage(String message) {
-        append(Html.fromHtml("<font color=red>"+message+"</font>"));
+        append("<font color='red'>"+message+"</font>");
+    }
+
+    public void authMessage(String message) {
+        append("<font color='fuchsia'>"+message+"</font>");
     }
 }

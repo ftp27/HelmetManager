@@ -37,7 +37,7 @@ public class auth {
                     new Random().nextInt(16)
             );
         }
-        Logger.statusMessage("AuthKey: "+authKey);
+        Logger.authMessage("AuthKey: "+authKey);
     }
 
     public int getAccessLevel(String IP) {
@@ -54,7 +54,7 @@ public class auth {
             deathtime = c.getTime();
             long id = db.newAccess(IP, deathtime, AccessLevel);
             if (id > 0) {
-                Logger.statusMessage("Access granted ["+AccessLevel+"] to "+IP);
+                Logger.authMessage("Access granted ["+AccessLevel+"] to "+IP);
             }
             return id;
         }
