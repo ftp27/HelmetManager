@@ -40,6 +40,7 @@ public class dataBase extends SQLiteOpenHelper {
     }
 
     public int takeAccess(String IP){
+        deleteOldTokens(new Date());
         Cursor c = this.getReadableDatabase().query(
                "tokens",
                new String[] {
@@ -64,6 +65,15 @@ public class dataBase extends SQLiteOpenHelper {
            Log.d(LOG_TAG, "Cursor is null");
        }
        return access;
+    }
+
+    public void deleteOldTokens(Date deathtime) {
+        this.getWritableDatabase().delete(
+                "tokens",
+                "deathtime < ?",
+                new String[]{
+                        dateFormat.format(deathtime)
+                });
     }
 
     @Override

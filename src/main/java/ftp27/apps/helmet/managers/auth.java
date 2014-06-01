@@ -54,7 +54,7 @@ public class auth {
             deathtime = c.getTime();
             long id = db.newAccess(IP, deathtime, AccessLevel);
             if (id > 0) {
-                Logger.statusMessage("Granted access["+AccessLevel+"] to "+IP);
+                Logger.statusMessage("Access granted ["+AccessLevel+"] to "+IP);
             }
             return id;
         }
