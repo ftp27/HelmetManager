@@ -1,10 +1,10 @@
 <div class="btn-group">
-    <button type="button" class="btn btn-default">Upload</button>
-    <button type="button" class="btn btn-default">Download</button>
-    <button type="button" class="btn btn-default">New dir</button>
-    <button type="button" class="btn btn-default">Copy</button>
-    <button type="button" class="btn btn-default">Cut</button>
-    <button type="button" class="btn btn-default">Delete</button>
+    <button type="button" class="btn btn-default file-upload">Upload</button>
+    <button type="button" class="btn btn-default file-download">Download</button>
+    <button type="button" class="btn btn-default file-newdir">New dir</button>
+    <button type="button" class="btn btn-default file-copy">Copy</button>
+    <button type="button" class="btn btn-default file-cut">Cut</button>
+    <button type="button" class="btn btn-default file-delete">Delete</button>
 </div>
 <div class="block-conteiner">
     <div class="file-part" id="file-left">
@@ -30,3 +30,21 @@
         </div>
     </div>
 </div>
+
+<div id="file-dialog-delete" title="Are you sure?">
+    <p><b>File to delete: </b><span></span></p>
+</div>
+
+<div id="file-dialog-newdir" title="Create new directory">
+    <label for="file-newdir-address">Address</label>
+    <input type="text" name="file-newdir-address" id="file-newdir-address" class="text ui-widget-content ui-corner-all" disabled>
+    <label for="file-newdir-name">Name</label>
+    <input type="text" name="file-newdir-name" id="file-newdir-name" class="text ui-widget-content ui-corner-all">
+</div>
+
+<div id="file-dialog-error" title="Error!">
+    <p></p>
+</div>
+
+
+

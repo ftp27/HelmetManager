@@ -103,6 +103,28 @@ body {
     padding-right: 10px;
 }
 
+.file-selected {
+    color: white;
+    background-color: rgb(128, 158, 204);
+}
+
+.file-dont-selected {
+    color: black;
+    background-color: white;
+}
+
+.file-selected>.file-name {
+    color: white;
+}
+
+.file-dont-selected>.file-name {
+    color: black;
+}
+
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+
 .footer {;
     width: 100%;
     align-content: center;
@@ -132,3 +154,4 @@ body {
     list-style-type: none;
     padding-left: 10px;
 }
+
