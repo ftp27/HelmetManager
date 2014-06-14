@@ -155,3 +155,8 @@ body {
     padding-left: 10px;
 }
 
+#info-brand-logo {
+    float: right;
+    width: 30%;
+}
+

@@ -8,6 +8,8 @@ import android.os.Build;
 import ftp27.apps.helmet.server.NanoHTTPD;
 
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by ftp27 on 05.05.14.
@@ -62,6 +64,15 @@ public class phone {
     }
 
     public String getBuild() {
+        String Logo = Build.BRAND;
+        //Logo = Logo.split("\\s+|_+|[0-9]+")[0];
+        Pattern pattern = Pattern.compile("[a-zA-Z]+");
+        Matcher matcher = pattern.matcher(Logo);
+        if (matcher.find()) {
+            Logo = matcher.group(0);
+        }
+        Logo = Logo.toLowerCase()+".png";
+
         String message = "{";
             message += "\"BOARD\":\""+Build.BOARD+"\",";
             message += "\"BOOTLOADER\":\""+Build.BOOTLOADER+"\",";
@@ -81,6 +92,7 @@ public class phone {
             message += "\"TAGS\":\""+Build.TAGS+"\",";
             message += "\"TYPE\":\""+Build.TYPE+"\",";
             message += "\"USER\":\""+Build.USER+"\",";
+            message += "\"LOGOIMAGE\":\""+Logo+"\",";
             message += "\"VERSION\":"+getBuildVersion()+"";
         message += "}";
         return message;
