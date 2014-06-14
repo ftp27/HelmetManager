@@ -97,6 +97,39 @@ $(".nav-content").ready(function() {
         }
     });
 
+    $("#file-dialog-copycut").dialog({
+            autoOpen: false,
+            resizable: false,
+            dialogClass: "no-close",
+            height:250,
+            width:450,
+            modal: true,
+            buttons: {
+                "Yes": function() {
+                    $.post(
+                        "/file/",
+                        {
+                            action: $("#file-copycut-action").val(),
+                            source: $("#file-copycut-from").val(),
+                            dest: $("#file-copycut-to").val()
+                        },
+                        function(data) {
+                            if (data.Status == "error") {
+                                $("#file-dialog-error>p").text(data.Code);
+                                $("#file-dialog-error").dialog( "open" );
+                            }
+                            updateLists();
+                        },
+                        "json"
+                    );
+                    $( this ).dialog( "close" );
+                },
+                Cancel: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+
 
 
     //Button actions
@@ -115,6 +148,33 @@ $(".nav-content").ready(function() {
             $("#file-newdir-address").val(fileAddress);
             $("#file-dialog-newdir").dialog( "open" );
         }
+    });
+
+    $(".file-copy, .file-cut").click(function() {
+        fileAddress = $(".file-selected").attr("src");
+        fileName = $(".file-selected").find(".file-name").text();
+        fromBlock = $(".file-selected").closest(".file-part");
+        toAddress = $(".file-part:not(#" + fromBlock.attr("id") + ")")
+                            .find(".file-address").val() + fileName;
+
+        if ($(this).hasClass("file-copy")) {
+            action = "copy";
+        } else {
+            action = "cut"
+        }
+
+        dialogTitle = action.charAt(0).toUpperCase()+action.slice(1);
+
+        if (fileAddress != "" && toAddress != "") {
+            $("#file-copycut-from").val(fileAddress);
+            $("#file-copycut-to").val(toAddress);
+            $("#file-copycut-action").val(action);
+
+            $("#file-dialog-copycut").dialog({ title: dialogTitle });
+            $("#file-dialog-copycut").dialog( "open" );
+        }
+
+
     });
 
 });

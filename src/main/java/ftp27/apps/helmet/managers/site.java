@@ -11,7 +11,7 @@ import java.util.Properties;
 
 public class site {
     private static String LOG_TAG = "Class [site]";
-    private boolean DEBUG = true;
+    private boolean DEBUG = false;
 
     public NanoHTTPD.Response request(String uri, String method, Properties header,
                                  Properties parms, Properties files) {

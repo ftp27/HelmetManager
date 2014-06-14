@@ -5,11 +5,7 @@ import ftp27.apps.helmet.server.NanoHTTPD;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
-import java.nio.file.Files;
-import static java.nio.file.StandardCopyOption.*;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Properties;
 
 /**
@@ -27,7 +23,7 @@ public class file {
         if (method.equals("POST")) {
             String Action = parms.getProperty("action");
             if (Action != null) {
-                if ((Action.equals("move")) || (Action.equals("copy"))) {
+                if ((Action.equals("cut")) || (Action.equals("copy"))) {
 
                     String Source = parms.getProperty("source");
                     String Dest = parms.getProperty("dest");
@@ -159,8 +155,12 @@ public class file {
             return getErrorCode(ERROR_BADADDRESS+":'source' and 'dest' can't be equals");
         }
 
+        if (dest.getAbsoluteFile().getPath().startsWith(source.getAbsoluteFile().getPath())) {
+            return getErrorCode(ERROR_BADADDRESS+":'dest' can't be in 'source'");
+        }
+
         try {
-            CopyOrMoveFile(source, dest, Action);
+            CopyOrCutFile(source, dest, Action);
             return getOkCode(dest.getPath());
         } catch (IOException e) {
             e.printStackTrace();
@@ -219,7 +219,7 @@ public class file {
                 "}";
     }
 
-    private static void CopyOrMoveFile(File source, File dest, String Action)
+    private static void CopyOrCutFile(File source, File dest, String Action)
             throws IOException {
         Log.d(LOG_TAG, Action+": "+source.getPath()+" to "+dest.getPath());
         if (source.isDirectory()) {
@@ -229,10 +229,10 @@ public class file {
 
             String[] childrens = source.list();
             for (String child: childrens) {
-                CopyOrMoveFile(new File(source, child), new File(dest, child), Action);
+                CopyOrCutFile(new File(source, child), new File(dest, child), Action);
             }
 
-            if (Action.equals("move")) {
+            if (Action.equals("cut")) {
                 source.delete();
             }
         } else {
@@ -242,7 +242,7 @@ public class file {
                 inputChannel = new FileInputStream(source).getChannel();
                 outputChannel = new FileOutputStream(dest).getChannel();
                 outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
-                if (Action.equals("move")) {
+                if (Action.equals("cut")) {
                     source.delete();
                 }
             } finally {
