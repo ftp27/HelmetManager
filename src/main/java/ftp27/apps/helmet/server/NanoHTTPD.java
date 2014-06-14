@@ -1,5 +1,7 @@
 package ftp27.apps.helmet.server;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -396,6 +398,7 @@ public class NanoHTTPD {
 				int bufsize = 8192;
 				byte[] buf = new byte[bufsize];
 				int rlen = is.read(buf, 0, bufsize);
+                //Log.d(TAG, new String(buf, "UTF-8"));
 				if (rlen <= 0)
 					return;
 

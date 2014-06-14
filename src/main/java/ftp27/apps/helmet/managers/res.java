@@ -42,7 +42,7 @@ public class res {
         return new NanoHTTPD.Response(NanoHTTPD.HTTP_NOTFOUND, NanoHTTPD.MIME_DEFAULT_BINARY, "");
     }
 
-    public String getAddress(String uri) {
+    public static String getAddress(String uri) {
         String[] uris = uri.split("/");
         String Address = "/";//File.pathSeparator;
         if (uris.length > 2) {
@@ -56,7 +56,7 @@ public class res {
         return Address;
     }
 
-    public String getMimeType(String fileName, String defaultType) {
+    public static String getMimeType(String fileName, String defaultType) {
         String mime = defaultType;
         String[] nameFile = fileName.split("\\.");
         if (nameFile.length > 0) {

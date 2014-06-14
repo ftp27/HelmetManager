@@ -10,6 +10,8 @@ import sun.misc.Cleaner;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Enumeration;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -48,12 +50,34 @@ public class httpd extends NanoHTTPD {
     public Response serve(String uri, String method, Properties header,
                           Properties parms, Properties files) {
         Log.d(LOG_TAG, method + " '" + uri + "' ");
+
+
+
         try {
             uri = new String(uri.getBytes("ISO-8859-1"),"UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
+
+        Enumeration<?> e = header.propertyNames();
+        while (e.hasMoreElements()) {
+            String value = (String) e.nextElement();
+            myOut.println("  HDR: '" + value + "' = '"
+                    + header.getProperty(value) + "'");
+        }
+        e = parms.propertyNames();
+        while (e.hasMoreElements()) {
+            String value = (String) e.nextElement();
+            myOut.println("  PRM: '" + value + "' = '"
+                    + parms.getProperty(value) + "'");
+        }
+        e = files.propertyNames();
+        while (e.hasMoreElements()) {
+            String value = (String) e.nextElement();
+            myOut.println("  UPLOADED: '" + value + "' = '"
+                    + files.getProperty(value) + "'");
+        }
 
         String ClientIP = header.getProperty("client-ip");
 
@@ -96,6 +120,10 @@ public class httpd extends NanoHTTPD {
                 return SiteManager.request(uri, method, header, parms, files);
             } else if (action.equals("download")) {
                 return ResManager.download(uri, method, header, parms, files);
+            } else if (action.equals("upload")) {
+
+
+                return FileManager.upload(uri, method, header, parms, files);
             }
         } else {
             return SiteManager.request(uri, method, header, parms, files);
@@ -103,6 +131,13 @@ public class httpd extends NanoHTTPD {
         return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_HTML, msg);
     }
 
+    public String outputProperty(Properties prop) {
 
+        //Object[] files = prop.getProperty("files");
+        for (String key: prop.stringPropertyNames()) {
+            Log.d(LOG_TAG,key);
+        }
+        return "";
+    }
 
 }

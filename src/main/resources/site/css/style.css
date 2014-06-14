@@ -125,7 +125,14 @@ body {
   display: none;
 }
 
-.footer {;
+#file-upload-progress > .bar {
+    height: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.footer {
+    padding: 20px;
     width: 100%;
     align-content: center;
     text-align: center;
@@ -135,7 +142,6 @@ body {
     text-decoration: none;
     font-size: 15px;
     color: black;
-
 }
 
 .debug {

@@ -15,6 +15,8 @@ $(".nav-content").ready(function() {
         setList($(this),'/sdcard');
     });
 
+    $( "#file-upload-progress .bar" ).progressbar({value: 0});
+
     // Dialog windows
 
     $("#file-dialog-error").dialog({
@@ -128,44 +130,58 @@ $(".nav-content").ready(function() {
                     $( this ).dialog( "close" );
                 }
             }
-        });
+    });
 
-
+    $("#file-dialog-upload").dialog({
+            autoOpen: false,
+            resizable: false,
+            dialogClass: "no-close",
+            height:250,
+            width:450,
+            modal: true,
+            buttons: {
+                Cancel: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+    });
 
     //Button actions
 
     $(".file-delete").click(function() {
-        fileAddress = $(".file-selected").attr("src");
-        if (fileAddress != "") {
+        if ($(".file-selected").length == 1) {
+            fileAddress = $(".file-selected").attr("src");
+
             $("#file-dialog-delete>p>span").text(fileAddress);
             $("#file-dialog-delete").dialog( "open" );
         }
     });
 
     $(".file-newdir").click(function() {
-        fileAddress = $(".file-selected").parent("ul").attr("src");
-        if (fileAddress != "") {
+        if ($(".file-selected").length == 1) {
+            fileAddress = $(".file-selected").parent("ul").attr("src");
+
             $("#file-newdir-address").val(fileAddress);
             $("#file-dialog-newdir").dialog( "open" );
         }
     });
 
     $(".file-copy, .file-cut").click(function() {
-        fileAddress = $(".file-selected").attr("src");
-        fileName = $(".file-selected").find(".file-name").text();
-        fromBlock = $(".file-selected").closest(".file-part");
-        toAddress = $(".file-part:not(#" + fromBlock.attr("id") + ")")
-                            .find(".file-address").val() + fileName;
+        if ($(".file-selected").length == 1) {
+            fileAddress = $(".file-selected").attr("src");
+            fileName = $(".file-selected").find(".file-name").text();
+            fromBlock = $(".file-selected").closest(".file-part");
+            toAddress = $(".file-part:not(#" + fromBlock.attr("id") + ")")
+                                .find(".file-address").val() + fileName;
 
-        if ($(this).hasClass("file-copy")) {
-            action = "copy";
-        } else {
-            action = "cut"
-        }
+            if ($(this).hasClass("file-copy")) {
+                action = "copy";
+            } else {
+                action = "cut"
+            }
 
-        dialogTitle = action.charAt(0).toUpperCase()+action.slice(1);
+            dialogTitle = action.charAt(0).toUpperCase()+action.slice(1);
 
-        if (fileAddress != "" && toAddress != "") {
             $("#file-copycut-from").val(fileAddress);
             $("#file-copycut-to").val(toAddress);
             $("#file-copycut-action").val(action);
@@ -173,9 +189,37 @@ $(".nav-content").ready(function() {
             $("#file-dialog-copycut").dialog({ title: dialogTitle });
             $("#file-dialog-copycut").dialog( "open" );
         }
-
-
     });
+
+    $('.file-upload').click(function() {
+        if ($(".file-selected").length == 1) {
+            fileAddress = $(".file-selected").parent("ul").attr("src");
+
+            //$("#file-upload-input").attr("data-url","/upload/"+fileAddress);
+            $('#file-upload-input').fileupload({
+                    dataType: 'json',
+                    url: "/upload/"+fileAddress,
+                    progressall: function (e, data) {
+                            var progress = parseInt(data.loaded / data.total * 100, 10);
+                            $( "#file-upload-progress .bar" ).progressbar({
+                                value: progress
+                            });
+                    },
+                    done: function (e, data) {
+                        $.each(data.result.files, function (index, file) {
+                            $('#file-dialog-upload > p').append(file.name+" - "+file.size+" bytes<br>");
+                        });
+                        updateLists();
+                    }
+                });
+
+            $('#file-dialog-upload > p').text("");
+            $( "#file-upload-progress .bar" ).progressbar({value: 0});
+
+            $("#file-dialog-upload").dialog( "open" );
+        }
+    });
+
 
 });
 

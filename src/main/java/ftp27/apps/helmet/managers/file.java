@@ -4,6 +4,7 @@ import android.util.Log;
 import ftp27.apps.helmet.server.NanoHTTPD;
 
 import java.io.*;
+import java.net.URLDecoder;
 import java.nio.channels.FileChannel;
 
 import java.util.Properties;
@@ -143,6 +144,46 @@ public class file {
         return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_JSON, message);
     }
 
+    public NanoHTTPD.Response upload(String uri, String method, Properties header,
+                                             Properties parms, Properties files) {
+        String Address = res.getAddress(uri);
+        String FileName = URLDecoder.decode(parms.getProperty("files[]"));
+
+        File source = new File(files.getProperty("files[]"));
+        File dest = new File(Address+"/"+FileName);
+
+        String answer =
+            "{" +
+                "\"files\":" +
+                    "[" +
+                        "{" +
+                            "\"url\": \"/res/"+Address+"/"+FileName+"\"," +
+                            "\"name\": \""+FileName+"\"," +
+                            "\"type\": \""+
+                                res.getMimeType(FileName,NanoHTTPD.MIME_DEFAULT_BINARY)+"\"," +
+                            "\"size\": \""+
+                                source.length()+"\"" +
+                        "}" +
+                    "]" +
+            "}";
+
+        try {
+            CopyOrCutFile(source, dest, "cut");
+        } catch (IOException e) {
+            e.printStackTrace();
+            answer =
+                "{\"files\": [\n" +
+                    "{" +
+                        "\"name\": \""+FileName+"\",\n" +
+                        "\"size\": "+source.length()+",\n" +
+                        "\"error\": \""+e.toString()+"\"\n" +
+                    "}" +
+                "]}";
+        }
+        Log.d(LOG_TAG, answer);
+        return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_JSON, answer);
+    }
+
     private String copyFile(File source, File dest, String Action) {
         if (!source.exists())  {
             return getErrorCode(ERROR_BADADDRESS+":'"+source.getPath()+"'");
@@ -261,5 +302,4 @@ public class file {
         }
         file.delete();
     }
-
 }
