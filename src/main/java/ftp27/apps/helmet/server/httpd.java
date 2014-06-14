@@ -94,6 +94,8 @@ public class httpd extends NanoHTTPD {
                 return ResManager.request(uri, method, header, parms, files);
             } else if (action.equals("site")) {
                 return SiteManager.request(uri, method, header, parms, files);
+            } else if (action.equals("download")) {
+                return ResManager.download(uri, method, header, parms, files);
             }
         } else {
             return SiteManager.request(uri, method, header, parms, files);

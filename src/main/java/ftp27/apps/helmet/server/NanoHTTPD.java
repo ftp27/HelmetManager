@@ -270,10 +270,13 @@ public class NanoHTTPD {
             MIME_GIF = "image/gif",
             MIME_PNG = "image/png",
             MIME_JPEG = "image/jpeg",
+            MIME_TIFF = "image/tiff",
 
             MIME_CSS = "text/css",
             MIME_JAVASCRIPT = "text/javascript",
-            MIME_JSON = "application/json";
+            MIME_JSON = "application/json",
+
+            MIME_PDF = "application/pdf";
 
 
 

@@ -200,11 +200,12 @@ function setList(dom, address) {
                     elem = "<li id='"+side+"-"+key+"' src='"+val["fileAddress"]+"' class='file-dont-selected'>";
                     if (val["fileType"] == "directory") {
                         elem += "<img src='/res/img/dir.png'>";
+                        elem += "<a class='file-name'>";
                     } else {
                         elem += "<img src='/res/img/file.png'>";
+                        elem += "<a class='file-name' href='/download/"+val["fileAddress"]+"'>";
                     }
-                    elem += "<a class='file-name'>"+
-                                val["fileName"]+
+                        elem += val["fileName"]+
                             "</a>"+
                          "</li>";
                     list += elem;
@@ -242,6 +243,10 @@ function updateEvents() {
     });
 
     $('.file-name').click(function () {
-        setList($(this).parents(".file-list"),$(this).parents("li").attr("src"));
+        img = $(this).parents(".file-list").find("a").parent().find("img");
+        imgAddr = img.attr("src").split("\/");
+        if (imgAddr[imgAddr.length-1] == "dir.png") {
+            setList($(this).parents(".file-list"),$(this).parents("li").attr("src"));
+        }
     });
 }

@@ -116,7 +116,7 @@ public class file {
                     if (dir_files.length > 0) {
                         for (int i = 0; i < dir_files.length; i++) {
                             message += "{ \"fileName\": \"" + dir_files[i].getName() + "\",";
-                            message += "\"fileAddress\":\"" + Address + dir_files[i].getName() + "/\",";
+                            message += "\"fileAddress\":\"" + Address + dir_files[i].getName() + "\",";
                             if (dir_files[i].isDirectory()) {
                                 message += "\"fileType\":\"directory\"";
                             } else {
