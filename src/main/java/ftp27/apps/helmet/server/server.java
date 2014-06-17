@@ -68,23 +68,29 @@ public class server {
     }
 
     public StatusCode start() {
-        if (this.status() == StatusCode.CODE_STARTED) {
-            this.stop();
-        }
-
-        try {
-            HTTPd = new httpd(port, new File("/sdcard"), AccessManager);
-            status = StatusCode.CODE_STARTED;
-
-            Logger.serverMessage("Server started");
-            Logger.serverMessage("Used network: "+getUsedNetwork());
-            Logger.serverMessage("IP:Port > "+getIP()+":"+Integer.toString(getPort()));
-            AccessManager.genAuthkey();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        String UsedNetwork = getUsedNetwork();
+        if (UsedNetwork.equals("")) {
             status = StatusCode.CODE_STOPPED;
             Logger.errorMessage("Error with starting server");
+        } else {
+            if (this.status() == StatusCode.CODE_STARTED) {
+                this.stop();
+            }
+
+            try {
+                HTTPd = new httpd(port, new File("/sdcard"), AccessManager);
+                status = StatusCode.CODE_STARTED;
+
+                Logger.serverMessage("Server started");
+                Logger.serverMessage("Used network: " + getUsedNetwork());
+                Logger.serverMessage("IP:Port > " + getIP() + ":" + Integer.toString(getPort()));
+                AccessManager.genAuthkey();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                status = StatusCode.CODE_STOPPED;
+                Logger.errorMessage("Error with starting server");
+            }
         }
 
         return status;
