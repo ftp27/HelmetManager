@@ -1,6 +1,7 @@
 package ftp27.apps.helmet;
 
 import android.app.Activity;
+import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
@@ -33,7 +34,7 @@ public class main extends Activity implements View.OnClickListener {
         Logger = new logger( (TextView) findViewById(R.id.logView) );
         DB = new dataBase(this);
         AccessManager = new auth(Logger, DB);
-        Server = new server(8080, (WifiManager) getSystemService(WIFI_SERVICE), AccessManager);
+        Server = new server(8080, AccessManager);
 
         StartButton.setOnClickListener(this);
         StopButton.setOnClickListener(this);
