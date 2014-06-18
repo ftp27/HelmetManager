@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Universal -->
+
+    <dimen name="portrate_logo_size">70dp</dimen>
+
+
+    <!-- Portrate -->
+
+    <dimen name="portrate_logo_text_size">30dp</dimen>
+    <dimen name="ip_text_size">40dp</dimen>
+    <dimen name="port_text_size">30dp</dimen>
+    <dimen name="contype_text_size">50dp</dimen>
+    <dimen name="pass_text_size">30dp</dimen>
+    <dimen name="ip_port_offset">30dp</dimen>
+    <dimen name="port_offset">120dp</dimen>
+    <dimen name="ip_offset">60dp</dimen>
+    <dimen name="contype_offset">140dp</dimen>
+    <dimen name="pass_offset">5dp</dimen>
+
+    <!-- Lanscape -->
+
+    <dimen name="land_logo_text_size">20dp</dimen>
+    <dimen name="contype_port_text_size">18dp</dimen>
+    <dimen name="info_text_size">17dp</dimen>
+</resources>

@@ -28,6 +28,8 @@ public class auth {
         this.Logger = Logger;
         this.db = db;
         this.context = db.getContext();
+
+        authKey = "----";
     }
 
     public void genAuthkey() {
@@ -62,6 +64,10 @@ public class auth {
         return -2;
     }
 
+    public String getAuthKey() {
+        return authKey;
+    }
+
     // Additional functional :)
 
     public logger getLogger() {
@@ -71,4 +77,5 @@ public class auth {
     public Context getContext() {
         return context;
     }
+
 }

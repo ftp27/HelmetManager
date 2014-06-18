@@ -1,12 +1,17 @@
-package ftp27.apps.helmet.server;
+package ftp27.apps.helmet;
 
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.IBinder;
 import android.util.Log;
 import ftp27.apps.helmet.managers.auth;
+import ftp27.apps.helmet.server.httpd;
+import ftp27.apps.helmet.tools.dataBase;
 import ftp27.apps.helmet.tools.logger;
 
 import java.io.File;
@@ -18,53 +23,93 @@ import java.util.Enumeration;
 /**
  * Created by ftp27 on 04.05.14.
  */
-public class server {
+public class serverService  extends Service {
     private static final String LOG_TAG = "Class [server]";
+
+    public static final String PARAM_PORT =  "port";
+    public static final String PARAM_IP = "IP";
+    public static final String PARAM_PASSKEY =  "authkey";
+    public static final String PARAM_NETWORK =  "network";
+    public static final String PARAM_STATUS =  "status";
+    public static final String PARAM_ACTION =  "action";
+    public static final String PARAM_PINTENT = "pending";
+    public static final String NETWORK_NONE = "none";
+    public static final int ACTION_START    = 100;
+    public static final int ACTION_STOP     = 101;
+    public static final int TASK_GETDATA    = 200;
+    public static final int STATUS_OK       = 300;
+    public static final int STATUS_ERROR    = 301;
+    public static final int SERVER_START    = 500;
+    public static final int SERVER_STOP    = 505;
+
+
     public static enum StatusCode {CODE_STARTED, CODE_STOPPED};
 
     private ConnectivityManager ConnectMng;
     private WifiManager wifiManager;
     private httpd HTTPd;
     private logger Logger;
-    private Context context;
     private auth AccessManager;
 
     private int port;
     private StatusCode status = StatusCode.CODE_STOPPED;
 
-    public server(int port, auth AccessManager) {
-        this.port = port;
-        this.AccessManager = AccessManager;
-        this.Logger = AccessManager.getLogger();
-        this.context = AccessManager.getContext();
+    public void onCreate() {
+        super.onCreate();
 
-        ConnectMng = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        wifiManager = (WifiManager) context
-                .getSystemService(Context.WIFI_SERVICE);
+        port = 8080;
 
-        Log.d(LOG_TAG, "Connection is "+new Boolean(checkConnection()).toString());
+        Logger = new logger();
+        AccessManager =  new auth(Logger, new dataBase(this));
 
+        ConnectMng = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+    }
 
-        /*
-        NetworkInfo[] networks = ConnectMng.getAllNetworkInfo();
-        String TypeNetwork;
-        for (NetworkInfo network: networks) {
-            TypeNetwork = "";
-            switch (network.getType()) {
-                case ConnectivityManager.TYPE_MOBILE:
-                    TypeNetwork = " - TYPE_MOBILE";
-                    break;
-                case ConnectivityManager.TYPE_WIFI:
-                    TypeNetwork = " - TYPE_WIFI";
-                    break;
-                case ConnectivityManager.TYPE_ETHERNET:
-                    TypeNetwork = " - TYPE_ETHERNET";
-                    break;
-            }
-            Log.d(LOG_TAG, network.getTypeName()+TypeNetwork);
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(LOG_TAG, "onDestroy");
+
+    }
+
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(LOG_TAG, "onStartCommand");
+        Integer port = intent.getIntExtra(PARAM_PORT, 0);
+        if (port != 0) {
+            this.port = port;
         }
-        */
+
+        Integer action = intent.getIntExtra(PARAM_ACTION, 0);
+        if (action != 0) {
+            if (action.equals(ACTION_START)) {
+                start();
+            } else if (action.equals(ACTION_STOP)) {
+                stop();
+            }
+        }
+
+        PendingIntent pi = intent.getParcelableExtra(PARAM_PINTENT);
+        if (pi != null) {
+            Intent toActivity = new Intent();
+            int resultCode = STATUS_OK;
+            try {
+                toActivity.putExtra(PARAM_IP, getIP());
+                toActivity.putExtra(PARAM_PORT, getPort().toString());
+                toActivity.putExtra(PARAM_NETWORK, getUsedNetwork());
+                toActivity.putExtra(PARAM_PASSKEY, AccessManager.getAuthKey());
+                toActivity.putExtra(PARAM_STATUS, getStatus());
+            } catch (Exception e) {
+                resultCode = STATUS_ERROR;
+            }
+
+            try {
+                pi.send(serverService.this, resultCode, toActivity);
+            } catch (PendingIntent.CanceledException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return super.onStartCommand(intent, flags, startId);
     }
 
     public StatusCode start() {
@@ -125,7 +170,6 @@ public class server {
             return ipString;
         } else {
             try {
-
                 for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
                     NetworkInterface intf = en.nextElement();
                     for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
@@ -140,7 +184,7 @@ public class server {
                 // Log.e(Constants.LOG_TAG, e.getMessage(), e);
             }
         }
-        return "";
+        return "----";
     }
 
 
@@ -157,23 +201,28 @@ public class server {
                 case ConnectivityManager.TYPE_ETHERNET:
                     TypeNetwork = "Ethernet";
                     break;
+                default:
+                    TypeNetwork = NETWORK_NONE;
+                    break;
             }
         Log.d(LOG_TAG, "getUsedNetwork - "+TypeNetwork);
         return TypeNetwork;
     }
 
-    public int getPort() {
+    public Integer getPort() {
         return port;
     }
 
-    public boolean checkConnection() {
-        if (    ConnectMng.getActiveNetworkInfo() != null &&
-                ConnectMng.getActiveNetworkInfo().isAvailable() &&
-                ConnectMng.getActiveNetworkInfo().isConnected()) {
-            return true;
-
+    public int getStatus() {
+        if (status() == StatusCode.CODE_STARTED) {
+            return SERVER_START;
         } else {
-            return false;
+            return SERVER_STOP;
         }
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 }

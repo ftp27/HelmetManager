@@ -17,18 +17,17 @@ public class logger {
     private static final String COLOR_AUTH = "#CF8500";
     private static final String COLOR_STATUS = "#616161";
 
-    private final TextView logView;
     private Handler handler;
 
-    public logger(TextView logView2) {
-        this.logView = logView2;
-
+    public logger() {
+        /*
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 logView.append(Html.fromHtml((String) msg.obj));
             }
         };
+        */
     }
 
     public void serverMessage(String message) {
@@ -53,7 +52,7 @@ public class logger {
         String date = format.format(d);
         Message msg = new Message();
         msg.obj = "["+date+"]: "+message+"<br>";
-        handler.sendMessage(msg);
+        //handler.sendMessage(msg);
     }
 
     private String getColorText(String Text, String Color) {
