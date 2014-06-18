@@ -24,6 +24,15 @@ public class mainActivity extends Activity implements View.OnClickListener {
     private ImageView statusCicrle;
     private Integer ServerStatus;
 
+    private Timer interfaceUpdater;
+    private static long updateTime = 5L * 1000;
+    private TimerTask updateTask = new TimerTask() {
+        @Override
+        public void run() {
+            updateDisplays();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,13 +46,8 @@ public class mainActivity extends Activity implements View.OnClickListener {
         textConType = (TextView) findViewById(R.id.textConType);
         statusCicrle = (ImageView) findViewById(R.id.imageMainCircle);
 
-        Timer myTimer = new Timer();
-        myTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                updateDisplays();
-            }
-        }, 0L, 10L * 1000); // интервал - 60000 миллисекунд, 0 миллисекунд до первого запуска.
+        interfaceUpdater = new Timer();
+        interfaceUpdater.schedule(updateTask, 0L, updateTime);
 
         //Set port
         //startService(new Intent(this, serverService.class).putExtra(serverService.PARAM_PORT, 8080));
@@ -118,7 +122,6 @@ public class mainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        //updateDisplays();
     }
 
     @Override
@@ -136,6 +139,9 @@ public class mainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onStop() {
         super.onStop();
+        interfaceUpdater.cancel();
+        interfaceUpdater.purge();
+
     }
     @Override
     protected void onDestroy() {

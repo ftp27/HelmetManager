@@ -74,41 +74,42 @@ public class serverService  extends Service {
 
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(LOG_TAG, "onStartCommand");
-        Integer port = intent.getIntExtra(PARAM_PORT, 0);
-        if (port != 0) {
-            this.port = port;
-        }
-
-        Integer action = intent.getIntExtra(PARAM_ACTION, 0);
-        if (action != 0) {
-            if (action.equals(ACTION_START)) {
-                start();
-            } else if (action.equals(ACTION_STOP)) {
-                stop();
-            }
-        }
-
-        PendingIntent pi = intent.getParcelableExtra(PARAM_PINTENT);
-        if (pi != null) {
-            Intent toActivity = new Intent();
-            int resultCode = STATUS_OK;
-            try {
-                toActivity.putExtra(PARAM_IP, getIP());
-                toActivity.putExtra(PARAM_PORT, getPort().toString());
-                toActivity.putExtra(PARAM_NETWORK, getUsedNetwork());
-                toActivity.putExtra(PARAM_PASSKEY, AccessManager.getAuthKey());
-                toActivity.putExtra(PARAM_STATUS, getStatus());
-            } catch (Exception e) {
-                resultCode = STATUS_ERROR;
+        if (intent != null) {
+            Integer port = intent.getIntExtra(PARAM_PORT, 0);
+            if (port != 0) {
+                this.port = port;
             }
 
-            try {
-                pi.send(serverService.this, resultCode, toActivity);
-            } catch (PendingIntent.CanceledException e) {
-                e.printStackTrace();
+            Integer action = intent.getIntExtra(PARAM_ACTION, 0);
+            if (action != 0) {
+                if (action.equals(ACTION_START)) {
+                    start();
+                } else if (action.equals(ACTION_STOP)) {
+                    stop();
+                }
+            }
+
+            PendingIntent pi = intent.getParcelableExtra(PARAM_PINTENT);
+            if (pi != null) {
+                Intent toActivity = new Intent();
+                int resultCode = STATUS_OK;
+                try {
+                    toActivity.putExtra(PARAM_IP, getIP());
+                    toActivity.putExtra(PARAM_PORT, getPort().toString());
+                    toActivity.putExtra(PARAM_NETWORK, getUsedNetwork());
+                    toActivity.putExtra(PARAM_PASSKEY, AccessManager.getAuthKey());
+                    toActivity.putExtra(PARAM_STATUS, getStatus());
+                } catch (Exception e) {
+                    resultCode = STATUS_ERROR;
+                }
+
+                try {
+                    pi.send(serverService.this, resultCode, toActivity);
+                } catch (PendingIntent.CanceledException e) {
+                    e.printStackTrace();
+                }
             }
         }
-
         return super.onStartCommand(intent, flags, startId);
     }
 
