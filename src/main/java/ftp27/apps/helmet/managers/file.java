@@ -9,7 +9,6 @@ import java.net.URLDecoder;
 import java.nio.channels.FileChannel;
 
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Created by ftp27 on 05.05.14.
@@ -23,7 +22,7 @@ public class file {
                             Map<String, String> files) {
         String message = "";
 
-        if (method.equals("POST")) {
+        if (method == NanoHTTPD.Method.POST) {
             String Action = parms.get("action");
             if (Action != null) {
                 if ((Action.equals("cut")) || (Action.equals("copy"))) {

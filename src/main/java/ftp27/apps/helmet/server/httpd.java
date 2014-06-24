@@ -5,14 +5,11 @@ import android.util.Log;
 import ftp27.apps.helmet.managers.*;
 import ftp27.apps.helmet.tools.logger;
 import ftp27.apps.helmet.tools.templater;
-import sun.misc.Cleaner;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Enumeration;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Created by ftp27 on 04.05.14.
@@ -63,7 +60,7 @@ public class httpd extends NanoHTTPD {
 
 
 
-        if ((method.equals("POST")) && (parms.containsKey("password"))) {
+        if ((method == Method.POST) && (parms.containsKey("password"))) {
             Log.d(LOG_TAG, method + " '" + parms.get("password") + "' ");
             AccessManager.takeAccess(ClientIP, parms.get("password"));
         }
