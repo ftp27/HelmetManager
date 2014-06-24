@@ -6,7 +6,9 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Build;
 import ftp27.apps.helmet.server.NanoHTTPD;
+import ftp27.apps.helmet.server.NanoHTTPD.Response;
 
+import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,8 +23,8 @@ public class phone {
         this.context = context;
     }
 
-    public NanoHTTPD.Response request(String uri, String method, Properties header,
-                          Properties parms, Properties files) {
+    public Response request(String uri, NanoHTTPD.Method method, Map<String, String> headers, Map<String, String> parms,
+                            Map<String, String> files) {
         String[] uris = uri.split("/");
         String action = "";
         String message = "";
@@ -37,7 +39,7 @@ public class phone {
             message = getBuild();
         }
 
-        return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_HTML, message);
+        return new Response(message);
     }
 
     public String getDeviceName() {

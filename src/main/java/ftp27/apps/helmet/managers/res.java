@@ -2,8 +2,10 @@ package ftp27.apps.helmet.managers;
 
 import android.util.Log;
 import ftp27.apps.helmet.server.NanoHTTPD;
+import ftp27.apps.helmet.server.NanoHTTPD.Response;
 
 import java.io.*;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -12,8 +14,8 @@ import java.util.Properties;
 public class res {
     private static String LOG_TAG = "Class [res]";
 
-    public NanoHTTPD.Response request(String uri, String method, Properties header,
-                                 Properties parms, Properties files) {
+    public Response request(String uri, NanoHTTPD.Method method, Map<String, String> headers, Map<String, String> parms,
+                            Map<String, String> files) {
 
         String[] uris = uri.split("/");
         String Address = "/site"+getAddress(uri);//File.pathSeparator;
@@ -24,22 +26,22 @@ public class res {
 
         String mime = getMimeType(uris[uris.length-1],NanoHTTPD.MIME_HTML);
 
-        return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, mime, in);
+        return new Response(Response.Status.OK, mime, in);
     }
 
-    public NanoHTTPD.Response download(String uri, String method, Properties header,
-                                      Properties parms, Properties files) {
+    public NanoHTTPD.Response download(String uri, NanoHTTPD.Method method, Map<String, String> headers, Map<String, String> parms,
+                                       Map<String, String> files) {
         String[] uris = uri.split("/");
         String Address = getAddress(uri);
 
         try {
             InputStream in =  new FileInputStream(Address);
             String mime = getMimeType(uris[uris.length-1],NanoHTTPD.MIME_DEFAULT_BINARY);
-            return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, mime, in);
+            return new NanoHTTPD.Response(Response.Status.OK, mime, in);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return new NanoHTTPD.Response(NanoHTTPD.HTTP_NOTFOUND, NanoHTTPD.MIME_DEFAULT_BINARY, "");
+        return new NanoHTTPD.Response(Response.Status.NOT_FOUND, NanoHTTPD.MIME_DEFAULT_BINARY, "");
     }
 
     public static String getAddress(String uri) {

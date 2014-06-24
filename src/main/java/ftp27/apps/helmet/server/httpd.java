@@ -31,8 +31,8 @@ public class httpd extends NanoHTTPD {
 
 
     public httpd(int port, File rootDir, auth AccessManager) throws IOException {
-        super(port, rootDir);
-        this.startServer();
+        super(port);
+        this.start();
 
         this.AccessManager = AccessManager;
         this.context = AccessManager.getContext();
@@ -47,8 +47,8 @@ public class httpd extends NanoHTTPD {
     }
 
     @Override
-    public Response serve(String uri, String method, Properties header,
-                          Properties parms, Properties files) {
+    public Response serve(String uri, Method method, Map<String, String> headers, Map<String, String> parms,
+                          Map<String, String> files) {
         Log.d(LOG_TAG, method + " '" + uri + "' ");
 
 
@@ -59,33 +59,13 @@ public class httpd extends NanoHTTPD {
             e.printStackTrace();
         }
 
-
-        Enumeration<?> e = header.propertyNames();
-        while (e.hasMoreElements()) {
-            String value = (String) e.nextElement();
-            myOut.println("  HDR: '" + value + "' = '"
-                    + header.getProperty(value) + "'");
-        }
-        e = parms.propertyNames();
-        while (e.hasMoreElements()) {
-            String value = (String) e.nextElement();
-            myOut.println("  PRM: '" + value + "' = '"
-                    + parms.getProperty(value) + "'");
-        }
-        e = files.propertyNames();
-        while (e.hasMoreElements()) {
-            String value = (String) e.nextElement();
-            myOut.println("  UPLOADED: '" + value + "' = '"
-                    + files.getProperty(value) + "'");
-        }
-
-        String ClientIP = header.getProperty("client-ip");
+        String ClientIP = headers.get("client-ip");
 
 
 
         if ((method.equals("POST")) && (parms.containsKey("password"))) {
-            Log.d(LOG_TAG, method + " '" + parms.getProperty("password") + "' ");
-            AccessManager.takeAccess(ClientIP, parms.getProperty("password"));
+            Log.d(LOG_TAG, method + " '" + parms.get("password") + "' ");
+            AccessManager.takeAccess(ClientIP, parms.get("password"));
         }
 
         int AccessLevel = AccessManager.getAccessLevel(ClientIP);
@@ -98,10 +78,7 @@ public class httpd extends NanoHTTPD {
                    ((uris.length < 1) ||
                     (!uris[1].toLowerCase().equals("res")))
         ) {
-                return new NanoHTTPD.Response(
-                        NanoHTTPD.HTTP_OK,
-                        NanoHTTPD.MIME_HTML,
-                        new templater().getTemplate("auth"));
+                return new Response(new templater().getTemplate("auth"));
         }
 
         if (uris.length > 0) {
@@ -111,30 +88,28 @@ public class httpd extends NanoHTTPD {
             }
 
             if (action.equals("file")) {
-                return FileManager.request(uri, method, header, parms, files);
+                return FileManager.request(uri, method, headers, parms, files);
             } else if (action.equals("info")) {
-                return PhoneManager.request(uri, method, header, parms, files);
+                return PhoneManager.request(uri, method, headers, parms, files);
             } else if (action.equals("res")) {
-                return ResManager.request(uri, method, header, parms, files);
+                return ResManager.request(uri, method, headers, parms, files);
             } else if (action.equals("site")) {
-                return SiteManager.request(uri, method, header, parms, files);
+                return SiteManager.request(uri, method, headers, parms, files);
             } else if (action.equals("download")) {
-                return ResManager.download(uri, method, header, parms, files);
+                return ResManager.download(uri, method, headers, parms, files);
             } else if (action.equals("upload")) {
 
 
-                return FileManager.upload(uri, method, header, parms, files);
+                return FileManager.upload(uri, method, headers, parms, files);
             }
         } else {
-            return SiteManager.request(uri, method, header, parms, files);
+            return SiteManager.request(uri, method, headers, parms, files);
         }
-        return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_HTML, msg);
+        return new NanoHTTPD.Response(msg);
     }
 
-    public String outputProperty(Properties prop) {
-
-        //Object[] files = prop.getProperty("files");
-        for (String key: prop.stringPropertyNames()) {
+    public String outputProperty(Map<String, String> prop) {
+        for (String key: prop.keySet()) {
             Log.d(LOG_TAG,key);
         }
         return "";

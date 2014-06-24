@@ -2,11 +2,13 @@ package ftp27.apps.helmet.managers;
 
 import android.util.Log;
 import ftp27.apps.helmet.server.NanoHTTPD;
+import ftp27.apps.helmet.server.NanoHTTPD.Response;
 
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.channels.FileChannel;
 
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -17,17 +19,17 @@ public class file {
     private static final String ERROR_BADADDRESS = "Wrong address";
     private static final String ERROR_NOINPUT = "Not enought input data";
 
-    public NanoHTTPD.Response request(String uri, String method, Properties header,
-                          Properties parms, Properties files) {
+    public Response request(String uri, NanoHTTPD.Method method, Map<String, String> headers, Map<String, String> parms,
+                            Map<String, String> files) {
         String message = "";
 
         if (method.equals("POST")) {
-            String Action = parms.getProperty("action");
+            String Action = parms.get("action");
             if (Action != null) {
                 if ((Action.equals("cut")) || (Action.equals("copy"))) {
 
-                    String Source = parms.getProperty("source");
-                    String Dest = parms.getProperty("dest");
+                    String Source = parms.get("source");
+                    String Dest = parms.get("dest");
                     if ((Source != null) && (Dest != null)) {
                         Log.d(LOG_TAG, "POST: action = "+Action+"; Source = "+Source+"; Dest = "+Dest);
 
@@ -42,7 +44,7 @@ public class file {
 
                 } else if (Action.equals("delete")) {
 
-                    String file = parms.getProperty("file");
+                    String file = parms.get("file");
                     if (file != null) {
                         Log.d(LOG_TAG, "POST: action = "+Action+"; file = "+file);
 
@@ -55,7 +57,7 @@ public class file {
 
                 } else if (Action.equals("newdir")) {
 
-                    String file = parms.getProperty("file");
+                    String file = parms.get("file");
                     if (file != null) {
                         Log.d(LOG_TAG, "POST: action = "+Action+"; file = "+file);
 
@@ -141,15 +143,15 @@ public class file {
             message += "}";
         }
 
-        return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_JSON, message);
+        return new NanoHTTPD.Response(Response.Status.OK, NanoHTTPD.MIME_JSON, message);
     }
 
-    public NanoHTTPD.Response upload(String uri, String method, Properties header,
-                                             Properties parms, Properties files) {
+    public NanoHTTPD.Response upload(String uri, NanoHTTPD.Method method, Map<String, String> headers, Map<String, String> parms,
+                                     Map<String, String> files) {
         String Address = res.getAddress(uri);
-        String FileName = URLDecoder.decode(parms.getProperty("files[]"));
+        String FileName = URLDecoder.decode(parms.get("files[]"));
 
-        File source = new File(files.getProperty("files[]"));
+        File source = new File(files.get("files[]"));
         File dest = new File(Address+"/"+FileName);
 
         String answer =
@@ -181,7 +183,7 @@ public class file {
                 "]}";
         }
         Log.d(LOG_TAG, answer);
-        return new NanoHTTPD.Response(NanoHTTPD.HTTP_OK, NanoHTTPD.MIME_JSON, answer);
+        return new Response(Response.Status.OK, NanoHTTPD.MIME_JSON, answer);
     }
 
     private String copyFile(File source, File dest, String Action) {
