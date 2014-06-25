@@ -3,13 +3,13 @@
     <item>
         <shape android:shape="oval">
             <stroke
-                    android:width="2px"
+                    android:width="@dimen/main_circle_stroke"
                     android:color="@color/circle_red"/>
             <size
-                    android:width="100dp"
-                    android:height="100dp" />
+                    android:width="@dimen/main_circle_size"
+                    android:height="@dimen/main_circle_size" />
             <solid
-                    android:color="@color/circles_fon"/>
+                    android:color="@color/circles_red_fon"/>
 
         </shape>
     </item>

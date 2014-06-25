@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Helmet Manager</string>
+    <string name="action_settings">Настройки</string>
+    <string name="ip">IP:</string>
+    <string name="port">Порт:</string>
+    <string name="passkey">Пароль:</string>
+    <string name="server">Сервер</string>
+    <string name="press">Нажмите для запуска</string>
+
+</resources>

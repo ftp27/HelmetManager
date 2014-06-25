@@ -3,7 +3,8 @@
     tools:context="ftp27.apps.helmet.mainActivity"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/global_fon">
 
 
     <LinearLayout
@@ -16,7 +17,8 @@
                 android:layout_height="@dimen/portrate_logo_size"
                 android:id="@+id/imageLogo"
                 android:src="@drawable/logo"
-                android:layout_gravity="left" android:maxHeight="230px"/>
+                android:layout_gravity="left"
+                android:maxHeight="230px"/>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

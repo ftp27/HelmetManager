@@ -3,12 +3,15 @@
                tools:context="ftp27.apps.helmet.mainActivity"
                android:layout_width="fill_parent"
                android:layout_height="fill_parent"
-               android:orientation="vertical">
+               android:orientation="vertical"
+               android:background="@color/land_fon">
 
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/portrate_logo_size">
+            android:layout_height="@dimen/portrate_logo_size"
+            android:background="@color/land_block"
+            android:layout_margin="@dimen/layout_margins">
 
         <ImageView
                 android:layout_width="@dimen/portrate_logo_size"
@@ -54,7 +57,6 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/textIP"
                         android:textSize="@dimen/info_text_size"
-                        android:text="192.168.1.1"
                         />
             </TableRow>
             <TableRow>
@@ -70,7 +72,6 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/textPort"
                         android:textSize="@dimen/info_text_size"
-                        android:text="8080"
                         />
             </TableRow>
             <TableRow>
@@ -86,7 +87,6 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/textPasskey"
                         android:textSize="@dimen/info_text_size"
-                        android:text="pass"
                         />
             </TableRow>
         </TableLayout>
@@ -105,7 +105,8 @@
                     android:textSize="@dimen/info_text_size"
                     android:gravity="center"
                     android:id="@+id/server_control"
-                    android:text="@string/server"/>
+                    android:text="@string/server"
+                    android:textColor="@color/circles_text"/>
         </FrameLayout>
 
 
@@ -137,6 +138,11 @@
         android:layout_height="match_parent"
         android:text=""
         android:textSize="12dp"
-        android:id="@+id/logView" />
+        android:id="@+id/logView"
+        android:background="@color/land_block"
+        android:layout_marginLeft="@dimen/layout_margins"
+        android:layout_marginRight="@dimen/layout_margins"
+        android:layout_marginBottom="@dimen/layout_margins"
+            />
 
 </LinearLayout>
