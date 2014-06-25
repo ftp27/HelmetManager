@@ -2,9 +2,13 @@ package ftp27.apps.helmet;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Surface;
@@ -18,9 +22,13 @@ import java.util.TimerTask;
 
 public class mainActivity extends Activity implements View.OnClickListener {
     private static final String LOG_TAG = "Class [main]";
+    private static final String PARAM_LOGDATA = "logdata";
+
+    public final static String BROADCAST_ACTION = "ftp27.apps.helmet";
 
     private TextView ServerButton;
     private TextView textIP, textPort, textPass, textConType;
+    private TextView textLog;
     private ImageView statusCicrle;
     private Integer ServerStatus;
 
@@ -32,6 +40,9 @@ public class mainActivity extends Activity implements View.OnClickListener {
             updateDisplays();
         }
     };
+
+    BroadcastReceiver br;
+    String LogText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +57,8 @@ public class mainActivity extends Activity implements View.OnClickListener {
         textConType = (TextView) findViewById(R.id.textConType);
         statusCicrle = (ImageView) findViewById(R.id.imageMainCircle);
 
+        textLog = (TextView) findViewById(R.id.logView);
+
         interfaceUpdater = new Timer();
         interfaceUpdater.schedule(updateTask, 0L, updateTime);
 
@@ -54,6 +67,26 @@ public class mainActivity extends Activity implements View.OnClickListener {
         //startService(new Intent(this, serverService.class).putExtra(serverService.PARAM_ACTION, serverService.ACTION_START));
         //startService(new Intent(this, serverService.class).putExtra(serverService.PARAM_ACTION, serverService.ACTION_STOP));
         ServerButton.setOnClickListener(this);
+
+        br = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int action = intent.getIntExtra(serverService.PARAM_ACTION, 0);
+                Log.d(LOG_TAG, "onRecive broadcast: " + new Integer(action).toString());
+
+                if (action == serverService.TASK_ADDLOG) {
+                    String newLine = checkString(
+                            intent.getStringExtra(serverService.PARAM_LOGLINE),
+                            ""
+                    );
+                    Log.d(LOG_TAG, "Recived message: " + newLine);
+                    textLog.append(Html.fromHtml(newLine));
+                }
+            }
+        };
+        IntentFilter intFilt = new IntentFilter(BROADCAST_ACTION);
+        registerReceiver(br, intFilt);
     }
 
     @Override
@@ -140,12 +173,14 @@ public class mainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        textLog.setText(savedInstanceState.getCharSequence(PARAM_LOGDATA));
         Log.d(LOG_TAG, "onRestoreInstanceState");
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putCharSequence(PARAM_LOGDATA,textLog.getText());
         Log.d(LOG_TAG, "onSaveInstanceState");
     }
 

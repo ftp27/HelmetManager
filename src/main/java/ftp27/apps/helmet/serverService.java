@@ -26,21 +26,28 @@ import java.util.Enumeration;
 public class serverService  extends Service {
     private static final String LOG_TAG = "Class [server]";
 
-    public static final String PARAM_PORT =  "port";
-    public static final String PARAM_IP = "IP";
-    public static final String PARAM_PASSKEY =  "authkey";
-    public static final String PARAM_NETWORK =  "network";
-    public static final String PARAM_STATUS =  "status";
-    public static final String PARAM_ACTION =  "action";
-    public static final String PARAM_PINTENT = "pending";
-    public static final String NETWORK_NONE = "none";
+    public static final String PARAM_PORT       = "port";
+    public static final String PARAM_IP         = "IP";
+    public static final String PARAM_PASSKEY    = "authkey";
+    public static final String PARAM_NETWORK    = "network";
+    public static final String PARAM_STATUS     = "status";
+    public static final String PARAM_ACTION     = "action";
+    public static final String PARAM_PINTENT    = "pending";
+    public static final String PARAM_LOGLINE    = "logline";
+
+    public static final String NETWORK_NONE     = "none";
+
     public static final int ACTION_START    = 100;
     public static final int ACTION_STOP     = 101;
-    public static final int TASK_GETDATA    = 200;
+
+    public static final int TASK_ADDLOG   = 200;
+    public static final int TASK_GETDATA    = 201;
+
     public static final int STATUS_OK       = 300;
     public static final int STATUS_ERROR    = 301;
+
     public static final int SERVER_START    = 500;
-    public static final int SERVER_STOP    = 505;
+    public static final int SERVER_STOP     = 505;
 
 
     public static enum StatusCode {CODE_STARTED, CODE_STOPPED};
@@ -59,7 +66,7 @@ public class serverService  extends Service {
 
         port = 8080;
 
-        Logger = new logger();
+        Logger = new logger(this);
         AccessManager =  new auth(Logger, new dataBase(this));
 
         ConnectMng = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

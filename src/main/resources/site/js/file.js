@@ -173,7 +173,7 @@ $(".nav-content").ready(function() {
             fileName = $(".file-selected").find(".file-name").text();
             fromBlock = $(".file-selected").closest(".file-part");
             toAddress = $(".file-part:not(#" + fromBlock.attr("id") + ")")
-                                .find(".file-address").val() + fileName;
+                                .find(".file-address").val() + "/" +fileName;
 
             if ($(this).hasClass("file-copy")) {
                 action = "copy";

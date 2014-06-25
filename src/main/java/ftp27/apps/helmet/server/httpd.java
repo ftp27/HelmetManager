@@ -56,7 +56,7 @@ public class httpd extends NanoHTTPD {
             e.printStackTrace();
         }
 
-        String ClientIP = headers.get("client-ip");
+        String ClientIP = headers.get("http-client-ip");
 
 
 

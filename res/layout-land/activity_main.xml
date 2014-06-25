@@ -110,41 +110,25 @@
                     android:text="@string/server"
                     android:textColor="@color/circles_text"/>
         </FrameLayout>
-
-
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-
-        <Button
+    <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Start Server"
-            android:id="@+id/startButton" />
-
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Stop Server"
-            android:id="@+id/stopButton" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:text=""
-        android:textSize="12dp"
-        android:id="@+id/logView"
-        android:background="@color/land_block"
-        android:layout_marginLeft="@dimen/layout_margins"
-        android:layout_marginRight="@dimen/layout_margins"
-        android:layout_marginBottom="@dimen/layout_margins"
-            />
+            android:layout_height="match_parent"
+            android:id="@+id/scrollView"
+            android:layout_marginLeft="@dimen/layout_margins"
+            android:layout_marginRight="@dimen/layout_margins"
+            android:layout_marginBottom="@dimen/layout_margins"
+            android:background="@color/land_block">
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="12dp"
+                android:id="@+id/logView"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:scrollHorizontally="true"/>
+    </ScrollView>
 
 </LinearLayout>
