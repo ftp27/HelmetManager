@@ -80,41 +80,54 @@ public class mainActivity extends Activity implements View.OnClickListener {
                         createPendingResult(serverService.TASK_GETDATA, new Intent(this, serverService.class), 0)));
     }
 
+    private String checkString(String Res) {
+        return checkString(Res, getString(R.string.none));
+    }
+
+    private String checkString(String Res, String Default) {
+        if (Res == null) {
+            return Default;
+        }
+        return Res;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == serverService.STATUS_OK) {
-            String port = data.getStringExtra(serverService.PARAM_PORT);
-            String ip = data.getStringExtra(serverService.PARAM_IP);
-            String passkey = data.getStringExtra(serverService.PARAM_PASSKEY);
-            String network = data.getStringExtra(serverService.PARAM_NETWORK);
+            String port = checkString(data.getStringExtra(serverService.PARAM_PORT));
+            String ip = checkString(data.getStringExtra(serverService.PARAM_IP));
+            String passkey = checkString(data.getStringExtra(serverService.PARAM_PASSKEY));
+            String network = checkString(data.getStringExtra(serverService.PARAM_NETWORK),serverService.NETWORK_NONE);
             ServerStatus = data.getIntExtra(serverService.PARAM_STATUS, serverService.SERVER_STOP);
 
-            if (    port    != null &&
-                    ip      != null &&
-                    passkey != null &&
-                    network != null) {
-
-                if (ServerStatus == serverService.SERVER_STOP) {
-                    if (getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-                        textIP.setText(R.string.press);
-                    } else {
-                        textIP.setText((CharSequence) "----");
-                    }
-                    if (network.equals(serverService.NETWORK_NONE)) {
-                        statusCicrle.setImageResource(R.drawable.red_button);
-                    } else {
-                        statusCicrle.setImageResource(R.drawable.yellow_button);
-                    }
-                } else {
-
-                    textIP.setText((CharSequence) ip);
+            if (!network.equals(serverService.NETWORK_NONE)) {
+                // Yellow || Green
+                if (ServerStatus == serverService.SERVER_START) {
+                    // Green
                     statusCicrle.setImageResource(R.drawable.green_button);
+                    textIP.setText(ip);
+                    textPass.setText(passkey);
+                } else {
+                    // Yellow
+                    statusCicrle.setImageResource(R.drawable.yellow_button);
+                    textIP.setText(R.string.press);
+                    textPass.setText(R.string.none);
                 }
-                textConType.setText((CharSequence) network);
-                textPort.setText((CharSequence) port);
-                textPass.setText((CharSequence) passkey);
+                textConType.setText(network);
+                textPort.setText(port);
+            } else {
+                // Red
+                statusCicrle.setImageResource(R.drawable.red_button);
+                textConType.setText(R.string.not_avaible);
+                textIP.setText(R.string.none);
+                textPort.setText(R.string.none);
+                textPass.setText(R.string.none);
+            }
+
+            if ((getScreenOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) && ServerStatus == serverService.SERVER_STOP) {
+                textIP.setText(R.string.none);
             }
         }
     }

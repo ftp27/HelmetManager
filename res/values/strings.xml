@@ -8,5 +8,7 @@
     <string name="passkey">Pass:</string>
     <string name="server">Server</string>
     <string name="press">Press to start</string>
+    <string name="none">----</string>
+    <string name="not_avaible">Not avaible</string>
 
 </resources>

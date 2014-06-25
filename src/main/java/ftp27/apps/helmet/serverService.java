@@ -192,6 +192,7 @@ public class serverService  extends Service {
     public String getUsedNetwork() {
         NetworkInfo nf = ConnectMng.getActiveNetworkInfo();
         String TypeNetwork = "";
+        if (nf != null) {
             switch (nf.getType()) {
                 case ConnectivityManager.TYPE_MOBILE:
                     TypeNetwork = "Mobile";
@@ -206,6 +207,9 @@ public class serverService  extends Service {
                     TypeNetwork = NETWORK_NONE;
                     break;
             }
+        } else {
+            TypeNetwork = NETWORK_NONE;
+        }
         Log.d(LOG_TAG, "getUsedNetwork - "+TypeNetwork);
         return TypeNetwork;
     }
