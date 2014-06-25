@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Helmet Manager</string>
+    <string name="action_settings">Settings</string>
+    <string name="ip">IP:</string>
+    <string name="port">Port:</string>
+    <string name="passkey">Pass:</string>
+    <string name="server">Server</string>
+    <string name="press">Press to start</string>
+    <string name="none">----</string>
+    <string name="not_avaible">Not avaible</string>
+
+</resources>

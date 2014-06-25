@@ -1,0 +1,85 @@
+<div class="btn-group">
+    <button type="button" class="btn btn-default file-upload"><img src='/res/img/icons/glyphicons_414_disk_save.png'>Upload</button>
+    <button type="button" class="btn btn-default file-newdir"><img src='/res/img/icons/glyphicons_145_folder_plus.png'>New dir</button>
+    <button type="button" class="btn btn-default file-copy"><img src='/res/img/icons/glyphicons_318_more_items.png'>Copy</button>
+    <button type="button" class="btn btn-default file-cut"><img src='/res/img/icons/glyphicons_288_scissors.png'>Cut</button>
+    <button type="button" class="btn btn-default file-delete"><img src='/res/img/icons/glyphicons_016_bin.png'>Delete</button>
+</div>
+<div class="block-conteiner">
+    <div class="file-part" id="file-left">
+        <div class="block-conteiner">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-default file-upbutton" type="button" src=""><img src='/res/img/icons/glyphicons_213_up_arrow.png'></button>
+                </span>
+                <input type="text" class="file-address form-control">
+            </div>
+            <div class="file-list"></div>
+        </div>
+    </div>
+    <div class="file-part" id="file-right">
+        <div class="block-conteiner">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-default file-upbutton" type="button" src=""><img src='/res/img/icons/glyphicons_213_up_arrow.png'></button>
+                </span>
+                <input type="text" class="file-address form-control">
+            </div>
+            <div class="file-list"></div>
+        </div>
+    </div>
+</div>
+
+<div id="file-dialog-delete" title="Are you sure?">
+    <div class="file-dialog-form">
+        <div class="file-dialog-block">
+            <label for="file-delete-filename">File to delete:</label>
+            <input type="text" name="file-delete-filename" id="file-delete-filename" class="text ui-widget-content ui-corner-all" disabled>
+        </div>
+    </div>
+</div>
+
+<div id="file-dialog-newdir" title="Create new directory">
+    <div class="file-dialog-form">
+        <div class="file-dialog-block">
+            <label for="file-newdir-address">Address:</label>
+            <input type="text" name="file-newdir-address" id="file-newdir-address" class="text ui-widget-content ui-corner-all" disabled>
+        </div>
+        <div class="file-dialog-block">
+            <label for="file-newdir-name">Name:</label>
+            <input type="text" name="file-newdir-name" id="file-newdir-name" class="text ui-widget-content ui-corner-all">
+        </div>
+    </div>
+</div>
+
+<div id="file-dialog-copycut" title="">
+    <div class="file-dialog-form">
+        <div class="file-dialog-block">
+            <input type="hidden" name="file-copycut-action" id="file-copycut-action">
+        </div>
+        <div class="file-dialog-block">
+            <label for="file-copycut-from">From:</label>
+            <input type="text" name="file-copycut-from" id="file-copycut-from" class="text ui-widget-content ui-corner-all" disabled>
+        </div>
+        <div class="file-dialog-block">
+            <label for="file-copycut-to">To:</label>
+            <input type="text" name="file-copycut-to" id="file-copycut-to" class="text ui-widget-content ui-corner-all" disabled>
+        </div>
+    </div>
+</div>
+
+<div id="file-dialog-upload" title="Upload data">
+    <input id="file-upload-input" type="file" name="files[]" multiple>
+    <div id="file-upload-progress">
+        <div class="bar"></div>
+    </div>
+    <p id="file-dialog-upload-log"></p>
+</div>
+
+
+<div id="file-dialog-error" title="Error!">
+    <p></p>
+</div>
+
+
+

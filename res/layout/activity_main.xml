@@ -1,0 +1,126 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ftp27.apps.helmet.mainActivity"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/global_fon">
+
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/portrate_logo_size">
+
+        <ImageView
+                android:layout_width="@dimen/portrate_logo_size"
+                android:layout_height="@dimen/portrate_logo_size"
+                android:id="@+id/imageLogo"
+                android:src="@drawable/logo"
+                android:layout_gravity="left"
+                android:maxHeight="230px"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/app_name"
+
+                android:textSize="@dimen/portrate_logo_text_size"
+                android:id="@+id/textLogo"/>
+    </LinearLayout>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/layoutControl">
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/imageMainCircle"
+                android:src="@drawable/red_button"/>
+
+        <TextView
+                android:id="@+id/textPort"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="@dimen/port_text_size"
+                android:layout_marginTop="@dimen/port_offset"
+                android:textColor="@color/circles_text"/>
+
+        <TextView
+                android:id="@+id/textConType"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="@dimen/contype_text_size"
+                android:layout_marginBottom="@dimen/contype_offset"
+                android:textColor="@color/circles_text"/>
+        <TextView
+                android:id="@+id/textIP"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="@dimen/ip_text_size"
+                android:layout_marginBottom="@dimen/ip_port_offset"
+                android:layout_marginTop="@dimen/ip_offset"
+                android:textColor="@color/circles_text" />
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:id="@+id/server_control"/>
+
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+            </FrameLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2">
+
+                    <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/imagePasskey"
+                            android:src="@drawable/passkey"/>
+                    <TextView
+                            android:id="@+id/textPasskey"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textSize="@dimen/pass_text_size"
+                            android:layout_marginBottom="@dimen/pass_offset"
+                            android:textColor="@color/circles_text"
+                            />
+                </FrameLayout>
+
+                <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:text=""
+            android:textSize="12sp"
+            android:id="@+id/logView" />
+</LinearLayout>

@@ -1,0 +1,213 @@
+body {
+    min-width: 700px;
+}
+
+.header {
+    height: 60px;
+    font-size: 40px;
+    font-style: italic;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.header>img {
+    float:left;
+}
+
+.header-text {
+    float:left;
+}
+
+.header-info {
+    float:right;
+    margin: 10px;
+    padding-left: 4px;
+    border-left: 3px solid;
+}
+
+.header-info>img {
+    height:20px;
+    float:right;
+}
+
+.header-info>div {
+    font-size: 15px;
+    font-style: normal;
+    float: left;
+    clear: both;
+    margin-right: 50px
+}
+
+.content {
+    min-height: 100px;
+    max-width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.nav-panel {
+
+}
+
+.nav>li>a {
+    padding: 5px 10px;
+}
+
+.nav-content {
+    height: 700px;
+    border: 1px solid #ddd;
+    border-top-width: 0px;
+    padding: 10px;
+}
+
+.btn>img {
+    height: 13px;
+    margin-right: 5px;
+}
+
+.file-part {
+    float: left;
+    width: 50%;
+    height: 100%;
+}
+
+.file-address {
+
+}
+
+.file-list {
+    height: 590px;
+    margin-top: 10px;
+    overflow: auto;
+}
+
+.file-list>ul{
+    margin-top: 0px;
+    padding: 10px;
+}
+
+.file-list>ul>li {
+    list-style-type: none;
+    /* padding: 2px; */
+    padding-left: 4px;
+    padding-top: 3px;
+    margin: 2px;
+    border-radius: 4px;
+}
+
+.file-name {
+    color: black;
+}
+
+.file-name:hover {
+    cursor: pointer
+}
+
+.file-list>ul>li>img {
+    float: left;
+    padding-right: 10px;
+}
+
+.file-selected {
+    color: white;
+    background-color: rgb(128, 158, 204);
+}
+
+.file-dont-selected {
+    color: black;
+    background-color: white;
+}
+
+.file-selected>.file-name {
+    color: white;
+}
+
+.file-dont-selected>.file-name {
+    color: black;
+}
+
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+
+#file-upload-progress > .bar {
+    height: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.footer {
+    padding: 20px;
+    width: 100%;
+    align-content: center;
+    text-align: center;
+}
+
+.footer a {
+    text-decoration: none;
+    font-size: 15px;
+    color: black;
+}
+
+.debug {
+    margin: 10px;
+}
+
+.block-conteiner {
+    margin: 5px;
+}
+
+#info-build li>b {
+    margin-right: 20px;
+}
+
+#info-build ul {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+#info-brand-logo {
+    float: right;
+    width: 30%;
+}
+
+.file-dialog-block {
+    clear:both;
+    text-align:right;
+    line-height:25px;
+    width: 100%;
+}
+
+.file-dialog-block>label {
+    float:left;
+    padding-right:10px;
+}
+
+.file-dialog-block>input {
+    width: 100%;
+}
+
+.file-dialog-form {
+    float:left;
+    width: 100%;
+}
+
+#file-dialog-upload-log {
+    overflow: auto;
+    height: 350px;
+}
+
+.upload-fileblock {
+    width: 100%;
+    clear: both;
+    border-bottom: 1px solid #D3D3D3;
+}
+
+.upload-filename {
+    float:left;
+}
+
+.upload-filesize {
+    float:right;
+}
+

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Portrate -->
+
+    <dimen name="portrate_logo_text_size">30dp</dimen>
+    <dimen name="ip_text_size">35dp</dimen>
+    <dimen name="port_text_size">25dp</dimen>
+    <dimen name="contype_text_size">37dp</dimen>
+    <dimen name="pass_text_size">30dp</dimen>
+
+    <!-- Lanscape -->
+
+    <dimen name="land_logo_text_size">20dp</dimen>
+    <dimen name="contype_port_text_size">18dp</dimen>
+    <dimen name="info_text_size">17dp</dimen>
+</resources>
