@@ -136,7 +136,7 @@ $(".nav-content").ready(function() {
             autoOpen: false,
             resizable: false,
             dialogClass: "no-close",
-            height:250,
+            height:550,
             width:450,
             modal: true,
             buttons: {
@@ -148,17 +148,18 @@ $(".nav-content").ready(function() {
 
     //Button actions
 
+
     $(".file-delete").click(function() {
-        if ($(".file-selected").length == 1) {
+        if (checkSelected()) {
             fileAddress = $(".file-selected").attr("src");
 
-            $("#file-dialog-delete>p>span").text(fileAddress);
+            $("#file-delete-filename").val(fileAddress);
             $("#file-dialog-delete").dialog( "open" );
         }
     });
 
     $(".file-newdir").click(function() {
-        if ($(".file-selected").length == 1) {
+        if (checkSelected()) {
             fileAddress = $(".file-selected").parent("ul").attr("src");
 
             $("#file-newdir-address").val(fileAddress);
@@ -167,7 +168,7 @@ $(".nav-content").ready(function() {
     });
 
     $(".file-copy, .file-cut").click(function() {
-        if ($(".file-selected").length == 1) {
+        if (checkSelected()) {
             fileAddress = $(".file-selected").attr("src");
             fileName = $(".file-selected").find(".file-name").text();
             fromBlock = $(".file-selected").closest(".file-part");
@@ -192,7 +193,7 @@ $(".nav-content").ready(function() {
     });
 
     $('.file-upload').click(function() {
-        if ($(".file-selected").length == 1) {
+        if (checkSelected()) {
             fileAddress = $(".file-selected").parent("ul").attr("src");
 
             //$("#file-upload-input").attr("data-url","/upload/"+fileAddress);
@@ -207,13 +208,22 @@ $(".nav-content").ready(function() {
                     },
                     done: function (e, data) {
                         $.each(data.result.files, function (index, file) {
-                            $('#file-dialog-upload > p').append(file.name+" - "+file.size+" bytes<br>");
+                            $('#file-dialog-upload-log').append(
+                                "<div class=\"upload-fileblock\">"+
+                                    "<div class=\"upload-filename\">"+
+                                        file.name+
+                                    "</div>"+
+                                    "<div class=\"upload-filesize\">"+
+                                        file.size+" bytes"+
+                                    "</div>"+
+                                "</div>"
+                            );
                         });
                         updateLists();
                     }
                 });
 
-            $('#file-dialog-upload > p').text("");
+            $('#file-dialog-upload-log').text("");
             $( "#file-upload-progress .bar" ).progressbar({value: 0});
 
             $("#file-dialog-upload").dialog( "open" );
@@ -222,6 +232,15 @@ $(".nav-content").ready(function() {
 
 
 });
+
+function checkSelected() {
+    if ($(".file-selected").length == 1) {
+        return true;
+    }
+    $("#file-dialog-error>p").text("Please select the file");
+    $("#file-dialog-error").dialog( "open" );
+    return false;
+}
 
 function updateLists() {
     $(".file-list").each( function() {

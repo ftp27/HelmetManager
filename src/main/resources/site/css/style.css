@@ -60,6 +60,11 @@ body {
     padding: 10px;
 }
 
+.btn>img {
+    height: 13px;
+    margin-right: 5px;
+}
+
 .file-part {
     float: left;
     width: 50%;
@@ -164,5 +169,45 @@ body {
 #info-brand-logo {
     float: right;
     width: 30%;
+}
+
+.file-dialog-block {
+    clear:both;
+    text-align:right;
+    line-height:25px;
+    width: 100%;
+}
+
+.file-dialog-block>label {
+    float:left;
+    padding-right:10px;
+}
+
+.file-dialog-block>input {
+    width: 100%;
+}
+
+.file-dialog-form {
+    float:left;
+    width: 100%;
+}
+
+#file-dialog-upload-log {
+    overflow: auto;
+    height: 350px;
+}
+
+.upload-fileblock {
+    width: 100%;
+    clear: both;
+    border-bottom: 1px solid #D3D3D3;
+}
+
+.upload-filename {
+    float:left;
+}
+
+.upload-filesize {
+    float:right;
 }
 
